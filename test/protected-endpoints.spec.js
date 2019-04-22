@@ -6,7 +6,6 @@ describe('Protected Endpoints', function () {
 
   const testUsers = helpers.makeUsersArray()
   const [testUser] = testUsers
-  const [testLanguages, testWords] = helpers.makeLanguagesAndWords(testUser)
 
   before('make knex instance', () => {
     db = helpers.makeKnexInstance()
@@ -34,21 +33,6 @@ describe('Protected Endpoints', function () {
       path: '/api/language',
       method: supertest(app).get,
     },
-    {
-      name: 'GET /api/language/head',
-      path: '/api/language/head',
-      method: supertest(app).get,
-    },
-    {
-      name: 'POST /api/language/guess',
-      path: '/api/language/guess',
-      method: supertest(app).post,
-    },
-    {
-      name: 'PUT /api/auth/token',
-      path: '/api/auth/token',
-      method: supertest(app).put,
-    },
   ]
 
   protectedEndpoints.forEach(endpoint => {
@@ -66,7 +50,7 @@ describe('Protected Endpoints', function () {
           .expect(401, { error: `Unauthorized request` })
       })
 
-      it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
+      it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {s
         const invalidUser = { username: 'user-not-existy', id: 1 }
         return endpoint.method(endpoint.path)
           .set('Authorization', helpers.makeAuthHeader(invalidUser))
