@@ -1,5 +1,5 @@
 {
-  "name": "express-boilerplate",
+  "name": "munchstats",
   "version": "0.0.1",
   "description": "",
   "main": "src/server.js",
@@ -12,7 +12,7 @@
     "deploy": "git push heroku master"
   },
   "keywords": [],
-  "author": "Tom `tomatao` HT <tomht@thinkful.com>",
+  "author": "Michael Bramble, Geordie/Georgie/Gordy/Jordy Connell, David Haugen, Bob Nearants",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
