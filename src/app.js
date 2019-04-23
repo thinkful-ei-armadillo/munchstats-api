@@ -17,7 +17,6 @@ app.use(cors())
 app.use(helmet())
 
 app.use('/api/auth', authRouter)
-app.use('/api/language', languageRouter)
 app.use('/api/user', userRouter)
 
 app.use(errorHandler)
