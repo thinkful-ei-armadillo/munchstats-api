@@ -5,8 +5,6 @@ const MealService = require('./meal-service');
 const mealRouter = express.Router()
 const jsonBodyParser = express.json()
 
-// TODO: patch
-
 mealRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
