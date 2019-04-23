@@ -30,7 +30,8 @@ ingredientRouter
 //   })
 
 IngredientRouter
-  .get('/', async (req, res, next) => {
+  .route('/')
+  .get(async (req, res, next) => {
     try {
       const ingredients = await IngredientService.getMealIngredients(
         req.app.get('db'),
@@ -48,6 +49,16 @@ IngredientRouter
     } catch (error) {
       next(error)
     }
+  })
+  .delete((req, res, next) => {
+    IngredientService.deleteIngredient(
+        req.app.get('db'),
+        req.params.ingredient_id
+    )
+    .then((resjson) => {
+        res.status(200).json(resjson);
+    })
+    .catch(next);
   });
 
 ingredientRouter
@@ -64,18 +75,6 @@ ingredientRouter
         res.status(201)
       })
       .catch(next)
-  });
-
-IngredientRouter
-  .delete((req, res, next) => {
-    IngredientService.deleteIngredient(
-        req.app.get('db'),
-        req.params.ingredient_id
-    )
-    .then((resjson) => {
-        res.status(200).json(resjson);
-    })
-    .catch(next);
   });
 
 module.exports = mealRouter;
