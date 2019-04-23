@@ -30,24 +30,6 @@ mealRouter
   })
 
 mealRouter
-  .get('/', async (req, res, next) => {
-    try {
-      const ingredients = await MealService.getMealIngredients(
-        req.app.get('db'),
-        req.meal.id,
-      )
-
-      res.json({
-        meal: req.meal,
-        ingredients,
-      })
-      next()
-    } catch (error) {
-      next(error)
-    }
-  })
-
-mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { meal } = req.body;
     const newMeal = { meal };
