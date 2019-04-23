@@ -3,7 +3,7 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const MealService = require('./meal-service');
 
 const mealRouter = express.Router()
-// const jsonBodyParser = express.json()
+const jsonBodyParser = express.json()
 
 // TODO: patch, delete
 
