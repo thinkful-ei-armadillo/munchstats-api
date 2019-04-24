@@ -3,21 +3,22 @@
 const IngredientService = {
   getMealIngredients(db, meal_id){
     return db
-      .from('ingredient')
+      .from('ingredients')
       .select('*')
       .where({meal_id});
   },
 
-  insertIngredient(db, newIngredient){
+  insertIngredient(db, newIngredient, meal_id) {
     return db
       .insert(newIngredient)
-      .into('ingredient')
+      .into('ingredients')
+      .where({meal_id})
       .returning('*');
   },
 
   deleteIngredient(knex, id) {
     return knex
-      .from('ingredient')
+      .from('ingredients')
       .where({id})
       .delete();
   },
