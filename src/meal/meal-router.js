@@ -47,7 +47,7 @@ mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { meal } = req.body;
     const newMeal = meal;
-    
+
     MealService.insertMeal(
       req.app.get('db'),
       newMeal
@@ -59,55 +59,33 @@ mealRouter
   });
 
 mealRouter
-  .delete('/', (req, res, next) => {
+  .delete('/', jsonBodyParser, async (req, res, next) => {
+    const { meal } = req.body;
+    const delMeal = meal;
+
     MealService.deleteMeal(
       req.app.get('db'),
-      req.params.id
+      delMeal
     )
-    .then(resjson => {
-      res.status(200).json(resjson)
-    })
-    .catch(next);
+      .then(meal => {
+        res.status(200).json(meal)
+      })
+      .catch(next);
   });
 
 mealRouter
   .patch('/', jsonBodyParser, (req, res, next) => {
-    const { id } = req.params;
-    const newMeal = {
-      id,
-      name,
-      user_id,
-      total_calorie,
-      total_fat,
-      total_carbs,
-      total_protein,
-      rating
-    };
+    const { meal } = req.body;
+    const newMeal = meal;
 
-    const fields = [
-      'id',
-      'name',
-      'user_id',
-      'total_calorie',
-      'total_fat',
-      'total_carbs',
-      'total_protein',
-      'rating'
-  ];
-
-  for(const field of fields){
-    if(!req.body[field]){
-      return res.status(400).json({
-        error: `Missing ${field} in request body.`
+    MealService.updateMeal(
+      req.app.get('db'),
+      newMeal
+    )
+      .then(meal => {
+        res.status(200).json(meal);
       })
-    }
-  }
-
-  MealService.updateMeal(req.app.get('db'), id, newMeal)
-    .then(meal => {
-      res.status(200).json(meal);
-    })
-    .catch(next);
-  });
+      .catch(next);
+    });
 
 module.exports = mealRouter;
