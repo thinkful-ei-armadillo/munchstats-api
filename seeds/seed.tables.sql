@@ -1,5 +1,7 @@
 BEGIN;
 
+-- psql -U postgres -d munchstats -f seeds/seed.tables.sql
+
 TRUNCATE
   "user";
 

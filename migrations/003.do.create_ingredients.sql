@@ -1,7 +1,7 @@
 CREATE TABLE "ingredients" (
   "id" SERIAL PRIMARY KEY,
   "name" TEXT NOT NULL,
-  "meal_id" INTEGER REFERENCES "meal"(id),
+  "meal_id" INTEGER REFERENCES "meal"(id) ON DELETE CASCADE,
   "total_calorie" INTEGER DEFAULT 0,
   "total_fat" INTEGER DEFAULT 0,
   "total_carbs" INTEGER DEFAULT 0,
