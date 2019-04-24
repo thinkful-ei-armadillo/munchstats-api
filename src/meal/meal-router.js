@@ -46,14 +46,14 @@ mealRouter
 mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { meal } = req.body;
-    const newMeal = { meal };
-
+    const newMeal = meal;
+    
     MealService.insertMeal(
       req.app.get('db'),
       newMeal
     )
       .then(meal => {
-        res.status(201)
+        res.status(201).json(meal)
       })
       .catch(next)
   });
