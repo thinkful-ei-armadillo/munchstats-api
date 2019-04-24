@@ -45,15 +45,9 @@ mealRouter
 
 mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
-<<<<<<< HEAD
     const { name, user_id } = req.body;
     console.log(user_id);
     console.log(name);
-=======
-    const { meal } = req.body;
-    const newMeal = meal;
-
->>>>>>> 302722246c0467abf42a2a203ad029ac4f6aa552
     MealService.insertMeal(
       req.app.get('db'),
       {name,
