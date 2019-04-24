@@ -32,7 +32,7 @@ mealRouter
     try {
       const meal = await MealService.getUsersMeal(
         req.app.get('db'),
-        req.meal.id
+        1 //make sure to get user id from jwt token
       );
       res.json({
         meal

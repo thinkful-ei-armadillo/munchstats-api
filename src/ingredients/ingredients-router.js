@@ -1,6 +1,6 @@
 const express = require('express');
 const { requireAuth } = require('../middleware/jwt-auth');
-const IngredientService = require('./meal-service');
+const IngredientService = require('./ingredients-service');
 
 const ingredientRouter = express.Router()
 const jsonBodyParser = express.json()
@@ -29,7 +29,7 @@ ingredientRouter
 //     }
 //   })
 
-IngredientRouter
+ingredientRouter
   .route('/')
   .get(async (req, res, next) => {
     try {
@@ -77,4 +77,4 @@ ingredientRouter
       .catch(next)
   });
 
-module.exports = mealRouter;
+module.exports = ingredientRouter;
