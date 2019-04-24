@@ -1,3 +1,5 @@
+'use strict';
+
 const MealService = {
   getUsersMeal(db, user_id){
     return db
@@ -10,21 +12,21 @@ const MealService = {
     return db
       .insert(newMeal)
       .into('meal')
-      .returning('*')
+      .returning('*');
   },
 
   deleteMeal(db, id){
     return db
       .from('meal')
       .where({id})
-      .delete()
+      .delete();
   },
 
   updateMeal(db, id, payload){
     return db
       .from('meal')
       .where({id})
-      .update(payload)
+      .update(payload);
   }
 };
 
