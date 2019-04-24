@@ -12,14 +12,14 @@ const MealService = {
     return db
       .insert(newMeal)
       .into('meal')
-      .returning('*')
+      .returning('*');
   },
 
   deleteMeal(db, id){
     return db
       .from('meal')
       .where(id)
-      .delete()
+      .delete();
   },
 
   updateMeal(db, payload){
@@ -35,7 +35,7 @@ const MealService = {
 		    total_carbs: payload.total_carbs,
 		    total_protein: payload.total_protein,
 		    rating: payload.rating
-      })
+      });
   }
 };
 
