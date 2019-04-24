@@ -31,11 +31,11 @@ ingredientRouter
 
 ingredientRouter
   .route('/')
-  .get(async (req, res, next) => {
+  .post(jsonBodyParser, async (req, res, next) => {
     try {
       const ingredients = await IngredientService.getMealIngredients(
         req.app.get('db'),
-        req.meal.id,
+        req.body.meal.id,
       )
 
       if(!ingredients){
@@ -50,10 +50,10 @@ ingredientRouter
       next(error)
     }
   })
-  .delete((req, res, next) => {
+  .delete(jsonBodyParser, (req, res, next) => {
     IngredientService.deleteIngredient(
         req.app.get('db'),
-        req.params.ingredient_id
+        req.body.ingredient_id
     )
     .then((resjson) => {
         res.status(200).json(resjson);
@@ -62,19 +62,22 @@ ingredientRouter
   });
 
 ingredientRouter
-  .post('/', jsonBodyParser, async (req, res, next) => {
+  .post('/:meal_id', jsonBodyParser, async (req, res, next) => {
       // all ingredient info will be in req.body
     const { ingredient } = req.body;
-    const newIngredient = { ingredient };
+    const newIngredient = ingredient;
+    const {meal_id} = req.params;
 
     IngredientService.insertIngredient(
       req.app.get('db'),
-      newIngredient
+      newIngredient,
+      meal_id
     )
       .then(ingredient => {
-        res.status(201)
+        res.status(201).send(ingredient)
       })
       .catch(next)
   });
 
 module.exports = ingredientRouter;
+
