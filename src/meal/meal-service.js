@@ -11,6 +11,20 @@ const MealService = {
       .insert(newMeal)
       .into('meal')
       .returning('*')
+  },
+
+  deleteMeal(db, id){
+    return db
+      .from('meal')
+      .where({id})
+      .delete()
+  },
+
+  updateMeal(db, id, payload){
+    return db
+      .from('meal')
+      .where({id})
+      .update(payload)
   }
 };
 

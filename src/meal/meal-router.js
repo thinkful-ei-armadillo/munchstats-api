@@ -5,8 +5,6 @@ const MealService = require('./meal-service');
 const mealRouter = express.Router()
 const jsonBodyParser = express.json()
 
-// TODO: patch, delete
-
 mealRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
@@ -30,6 +28,22 @@ mealRouter
   })
 
 mealRouter
+  .get('/', async (req, res, next) => {
+    try {
+      const meal = await MealService.getUsersMeal(
+        req.app.get('db'),
+        req.meal.id
+      );
+      res.json({
+        meal
+      })
+      next()
+    } catch(error){
+      next(error)
+    }
+  });
+
+mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { meal } = req.body;
     const newMeal = { meal };
@@ -42,6 +56,58 @@ mealRouter
         res.status(201)
       })
       .catch(next)
+  });
+
+mealRouter
+  .delete('/', (req, res, next) => {
+    MealService.deleteMeal(
+      req.app.get('db'),
+      req.params.id
+    )
+    .then(resjson => {
+      res.status(200).json(resjson)
+    })
+    .catch(next);
+  });
+
+mealRouter
+  .patch('/', jsonBodyParser, (req, res, next) => {
+    const { id } = req.params;
+    const newMeal = {
+      id,
+      name,
+      user_id,
+      total_calorie,
+      total_fat,
+      total_carbs,
+      total_protein,
+      rating
+    };
+
+    const fields = [
+      'id',
+      'name',
+      'user_id',
+      'total_calorie',
+      'total_fat',
+      'total_carbs',
+      'total_protein',
+      'rating'
+  ];
+
+  for(const field of fields){
+    if(!req.body[field]){
+      return res.status(400).json({
+        error: `Missing ${field} in request body.`
+      })
+    }
+  }
+
+  MealService.updateMeal(req.app.get('db'), id, newMeal)
+    .then(meal => {
+      res.status(200).json(meal);
+    })
+    .catch(next);
   });
 
 module.exports = mealRouter;
