@@ -27,7 +27,6 @@ app.use('/api/user', userRouter);
 app.use('/api/meal', mealRouter);
 app.use('/api/proxy', apiProxyRouter);
 app.use('/api/ingredients', ingredientRouter);
-app.use('/api/proxy', apiProxyRouter)
 
 app.use(errorHandler);
 
