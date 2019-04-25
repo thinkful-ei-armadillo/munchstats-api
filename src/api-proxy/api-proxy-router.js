@@ -86,9 +86,9 @@ apiProxyRouter
           name: name,
           // meal_id: mealId,
           total_calorie: results.calories,
-          total_fat:(results.totalNutrients) ? results.totalNutrients.FAT.quantity : 0,
-          total_carbs: (results.totalNutrients) ? results.totalNutrients.CHOCDF.quantity: 0,
-          total_protein: (results.totalNutrients) ? results.totalNutrients.PROCNT.quantity: 0,
+          total_fat:results.totalNutrients.FAT ? results.totalNutrients.FAT.quantity : 0,
+          total_carbs: results.totalNutrients.CHOCDF ? results.totalNutrients.CHOCDF.quantity: 0,
+          total_protein: results.totalNutrients.PROCNT ? results.totalNutrients.PROCNT.quantity: 0,
           amount: quantity.value,
           unit: label
         };

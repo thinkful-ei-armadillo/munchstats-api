@@ -9,7 +9,7 @@ mealRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
     try{
-      const meal = await MealService.getUsersMeal(
+      const meal = await MealService.getAllUserMeals(
         req.app.get('db'),
         req.user.id
       )
@@ -30,7 +30,7 @@ mealRouter
 mealRouter
   .get('/', async (req, res, next) => {
     try {
-      const meal = await MealService.getUsersMeal(
+      const meal = await MealService.getAllUserMeals(
         req.app.get('db'),
         req.user.id
       );
@@ -88,6 +88,20 @@ mealRouter
       })
       .catch(next);
     });
+
+mealRouter
+  .get('/:mealId', jsonBodyParser, (req, res, next) => {
+    // const { mealId } = req.body;
+    MealService.getSingleUserMeal(
+      req.app.get('db'),
+      req.user.id,
+      Number(req.params.mealId)
+    )
+      .then(meal => {
+        res.status(200).json(meal);
+      })
+      .catch(next);
+  });
 
 module.exports = mealRouter;
 
