@@ -1,6 +1,6 @@
 BEGIN;
 
--- psql -U postgres -d munchstats -f seeds/seed.tables.sql
+-- psql -U mutdgftgfhyqfq -d d2qvu6rdo8jrdq -f seeds/seed.tables.sql
 
 TRUNCATE
   "user", "meal", "ingredients";
