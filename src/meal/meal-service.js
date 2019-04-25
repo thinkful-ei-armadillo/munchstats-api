@@ -1,11 +1,18 @@
 'use strict';
 
 const MealService = {
-  getUsersMeal(db, user_id){
+  getAllUserMeals(db, user_id){
     return db
       .from('meal')
       .select('*')
       .where({user_id});
+  },
+
+  getSingleUserMeal(db, user_id, id){
+    return db
+      .from('meal')
+      .select('*')
+      .where({user_id, id});
   },
 
   insertMeal(db, newMeal){
@@ -30,11 +37,11 @@ const MealService = {
         id: payload.id,
         name: payload.name,
         user_id: payload.user_id,
-		    total_calorie: payload.total_calorie,
-		    total_fat: payload.total_fat,
-		    total_carbs: payload.total_carbs,
-		    total_protein: payload.total_protein,
-		    rating: payload.rating
+        total_calorie: payload.total_calorie,
+        total_fat: payload.total_fat,
+        total_carbs: payload.total_carbs,
+        total_protein: payload.total_protein,
+        rating: payload.rating
       });
   }
 };
