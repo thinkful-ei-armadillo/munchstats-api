@@ -1,51 +1,30 @@
-# Spaced repetition API!
+## Munch Stats API
++ [Client Repo](https://github.com/thinkful-ei-armadillo/munchstats-client)  
 
-## Local dev setup
+### Endpoints
+#### /api/auth/token
++ POST only endpoint.
++ Validates user credentials.
++ If validation is passed, it will respond with a JWT token.
 
-If using user `dunder-mifflin`:
+#### /api/meal
++ GET, POST, PATCH and DELETE user's meals into the database.
 
-```bash
-mv example.env .env
-createdb -U dunder-mifflin spaced-repetition
-createdb -U dunder-mifflin spaced-repetition-test
-```
+#### /api/ingredients
++ POST a meal id and get a list of ingredients for that meal in return.
++ DELETE an ingredient from a meal based on a meal id.
 
-If your `dunder-mifflin` user has a password be sure to set it in `.env` for all appropriate fields. Or if using a different user, update appropriately.
+#### /api/ingredients/:meal_id
++ POST an ingredient to a meal based on a meal id.
 
-```bash
-npm install
-npm run migrate
-env MIGRATION_DB_NAME=spaced-repetition-test npm run migrate
-```
+#### /api/user
++ POST only endpoint.
++ Create new user profile.
 
-And `npm test` should work at this point
+#### /api/proxy
++ Sends user requests to [Edamam's API](https://developer.edamam.com/) by proxy to recieve nutrition information on different ingredients.
 
-## Configuring Postgres
-
-For tests involving time to run properly, configure your Postgres database to run in the UTC timezone.
-
-1. Locate the `postgresql.conf` file for your Postgres installation.
-   1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
-   2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-2. Find the `timezone` line and set it to `UTC`:
-
-```conf
-# - Locale and Formatting -
-
-datestyle = 'iso, mdy'
-#intervalstyle = 'postgres'
-timezone = 'UTC'
-#timezone_abbreviations = 'Default'     # Select the set of available time zone
-```
-
-## Scripts
-
-Start the application `npm start`
-
-Start nodemon for the application `npm run dev`
-
-Run the tests mode `npm test`
-
-Run the migrations up `npm run migrate`
-
-Run the migrations down `npm run migrate -- 0`
+### Tech Stack
++ Node.js
++ Express
++ Deployed with Heroku
