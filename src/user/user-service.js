@@ -9,6 +9,7 @@ const UserService = {
       .first()
       .then(user => !!user);
   },
+
   insertUser(db, newUser) {
     return db
       .insert(newUser)
@@ -16,7 +17,9 @@ const UserService = {
       .returning('*')
       .then(([user]) => user);
   },
+
   validatePassword(password) {
+    // various new password requirements, may add more in the future
     if (password.length < 8) {
       return 'Password be longer than 8 characters';
     }
@@ -28,14 +31,16 @@ const UserService = {
     }
     return null;
   },
+
   hashPassword(password) {
     return bcrypt.hash(password, 12);
   },
+
   serializeUser(user) {
     return {
       id: user.id,
       name: user.name,
-      username: user.username,
+      username: user.username
     };
   },
 };

@@ -1,32 +1,35 @@
 const express = require('express');
 const { requireAuth } = require('../middleware/jwt-auth');
 const MealService = require('./meal-service');
-
-const mealRouter = express.Router()
-const jsonBodyParser = express.json()
+const mealRouter = express.Router();
+const jsonBodyParser = express.json();
 
 mealRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
+    /*
+    // This try block checks to see if a user has meals in the
+    // database. If there are none, it sends a 404.
+    */
     try{
       const meal = await MealService.getAllUserMeals(
         req.app.get('db'),
         req.user.id
-      )
+      );
 
       if(!meal){
         return res.status(404).json({
           error: `You don't have any meals.`
         })
       }
-
       req.meal = meal;
-      next()
+      next();
     } catch(error){
-      next(error)
+      next(error);
     }
   })
 
+// display all of a user's meals
 mealRouter
   .get('/', async (req, res, next) => {
     try {
@@ -43,11 +46,10 @@ mealRouter
     }
   });
 
+// post a new meal to the database
 mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { name, user_id } = req.body;
-    console.log(user_id);
-    console.log(name);
     MealService.insertMeal(
       req.app.get('db'),
       {name,
@@ -59,6 +61,7 @@ mealRouter
       .catch(next)
   });
 
+// delete a meal (by id) from the database
 mealRouter
   .delete('/', jsonBodyParser, async (req, res, next) => {
     const { meal } = req.body;
@@ -74,6 +77,7 @@ mealRouter
       .catch(next);
   });
 
+// update meal info in database
 mealRouter
   .patch('/', jsonBodyParser, (req, res, next) => {
     const { meal } = req.body;
@@ -89,9 +93,9 @@ mealRouter
       .catch(next);
     });
 
+// get only one meal by id
 mealRouter
   .get('/:mealId', jsonBodyParser, (req, res, next) => {
-    // const { mealId } = req.body;
     MealService.getSingleUserMeal(
       req.app.get('db'),
       req.user.id,
@@ -104,4 +108,3 @@ mealRouter
   });
 
 module.exports = mealRouter;
-
