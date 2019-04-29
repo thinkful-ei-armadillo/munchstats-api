@@ -1,4 +1,4 @@
-'use strict';
+
 
 const express = require('express');
 const { requireAuth } = require('../middleware/jwt-auth');
@@ -25,28 +25,31 @@ apiProxyRouter
     }
     return fetch(`${process.env.FOOD_API_URI_START}${food}${process.env.FOOD_API_URI_END}`)
       .then(res => res.json())
-      .then(res => {
-        let results = [];
-        for(let i = 0; i < 10; i++){
-          let item = res.hints[i];
-          let newIngredient = {
-            id: item.food.foodId,
-            name: item.food.label,
-            calories: (item.food.nutrients.ENERC_KCAL) ? item.food.nutrients.ENERC_KCAL : 0,
-            protein: (item.food.nutrients.PROCNT) ? item.food.nutrients.PROCNT : 0,
-            fat: (item.food.nutrients.FAT) ? item.food.nutrients.FAT : 0,
-            carbs: (item.food.nutrients.CHOCDF) ? item.food.nutrients.CHOCDF : 0,
-            image: item.food.image,
-            measures: item.measures
-          };
-          results.push(newIngredient);
-        }
-        return results;
-      })
-      .then(results => {
-        res.status(201);
-        res.json(results);
-      })
+      .then(apiResults => {
+        // if no results found, return an error
+        if(apiResults.parsed.length === 0){
+          return res.status(400).json({
+            error: 'Sorry, we couldn\'t find any results matching your search'
+          });
+        } else {
+          let results = [];
+          for(let i = 0; i < 10; i++){
+            let item = apiResults.hints[i];
+            let newIngredient = {
+              id: item.food.foodId,
+              name: item.food.label,
+              calories: (item.food.nutrients.ENERC_KCAL) ? item.food.nutrients.ENERC_KCAL : 0,
+              protein: (item.food.nutrients.PROCNT) ? item.food.nutrients.PROCNT : 0,
+              fat: (item.food.nutrients.FAT) ? item.food.nutrients.FAT : 0,
+              carbs: (item.food.nutrients.CHOCDF) ? item.food.nutrients.CHOCDF : 0,
+              image: item.food.image,
+              measures: item.measures
+            };
+            results.push(newIngredient);
+          }
+          res.status(201);
+          res.json(results);
+        }})
       .catch(next);
   });
 

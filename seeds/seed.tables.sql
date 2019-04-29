@@ -3,7 +3,7 @@ BEGIN;
 -- psql -h ec2-54-235-208-103.compute-1.amazonaws.com -U mutdgftgfhyqfq -d d2qvu6rdo8jrdq -f seeds/seed.tables.sql
 
 TRUNCATE
-  "user", "meal", "ingredients";
+  "user", "meal", "ingredients", "events";
 
 INSERT INTO "user" ("id", "username", "name", "password")
 VALUES
