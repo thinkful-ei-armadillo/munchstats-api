@@ -2,25 +2,25 @@
 
 const express = require('express');
 const { requireAuth } = require('../middleware/jwt-auth');
-const ApiProxyService = require('./api-proxy-service');
 const apiProxyRouter = express.Router();
 const jsonBodyParser = express.json();
 const fetch = require('node-fetch');
 require('dotenv').config();
 
-
+// apiProxyRouter sends requests from our client to third-party API by proxy
 apiProxyRouter
   .all(requireAuth)
   .route('/foods')
   .post(jsonBodyParser, (req, res, next) => {
     const { food } = req.body;
-    if (!req.body['food'])
+    if (!req.body['food']){
       return res.status(400).json({
-        error: 'Missing food in request body'
+        error: 'Missing food in request body.'
       });
+    }
     if(food.length > 30){
       return res.status(400).json({
-        error: 'Food names cannot exceed 30 characters'
+        error: 'Food names cannot exceed 30 characters.'
       });
     }
     return fetch(`${process.env.FOOD_API_URI_START}${food}${process.env.FOOD_API_URI_END}`)
@@ -55,6 +55,7 @@ apiProxyRouter
   .route('/nutrition')
   .post(jsonBodyParser, (req, res, next) => {
     const { ingredients, name, label, quantity } = req.body;
+    // TODO: maybe make this a for loop instead of many if statements
     if (!req.body['ingredients'])
       return res.status(400).json({
         error: 'Missing ingredients in request body'
@@ -91,12 +92,10 @@ apiProxyRouter
           amount: quantity.value,
           unit: label
         };
-
         res.status(201);
         res.json(resultIngredient);
       })
       .catch(next);
   });
-
 
 module.exports = apiProxyRouter;

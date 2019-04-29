@@ -1,9 +1,8 @@
-const express = require('express')
-const AuthService = require('./auth-service')
-const { requireAuth } = require('../middleware/jwt-auth')
-
-const authRouter = express.Router()
-const jsonBodyParser = express.json()
+const express = require('express');
+const AuthService = require('./auth-service');
+const { requireAuth } = require('../middleware/jwt-auth');
+const authRouter = express.Router();
+const jsonBodyParser = express.json();
 
 authRouter
   .route('/token')
@@ -12,54 +11,59 @@ authRouter
     const loginUser = { username, password }
 
     for (const [key, value] of Object.entries(loginUser))
-      if (value == null)
+      if (value == null){
         return res.status(400).json({
           error: `Missing '${key}' in request body`
         })
-
+      }
+    /* 
+    // Pretty self-explanatory, but this try block checks to see
+    // that the user has inputted a valid username/pass combo.
+    */
     try {
       const dbUser = await AuthService.getUserWithUserName(
         req.app.get('db'),
         loginUser.username
-      )
+      );
 
-      if (!dbUser)
+      if(!dbUser){
         return res.status(400).json({
-          error: 'Incorrect username or password',
-        })
-
+          error: 'Incorrect username or password'
+        });
+      }
       const compareMatch = await AuthService.comparePasswords(
         loginUser.password,
         dbUser.password
-      )
+      );
 
-      if (!compareMatch)
+      if(!compareMatch){
         return res.status(400).json({
-          error: 'Incorrect username or password',
-        })
-
-      const sub = dbUser.username
+          error: 'Incorrect username or password'
+        });
+      }
+      const sub = dbUser.username;
       const payload = {
         user_id: dbUser.id,
         name: dbUser.name,
-      }
+      };
       res.send({
         authToken: AuthService.createJwt(sub, payload),
-      })
-    } catch (error) {
-      next(error)
+      });
+    } catch(error){
+      next(error);
     }
   })
 
+  // Once everything above is all good, send a JWT token back.
   .put(requireAuth, (req, res) => {
-    const sub = req.user.username
+    const sub = req.user.username;
     const payload = {
       user_id: req.user.id,
       name: req.user.name,
-    }
+    };
     res.send({
-      authToken: AuthService.createJwt(sub, payload),
-    })
+      authToken: AuthService.createJwt(sub, payload)
+    });
   })
 
-module.exports = authRouter
+module.exports = authRouter;
