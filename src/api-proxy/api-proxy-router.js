@@ -81,7 +81,6 @@ apiProxyRouter
     })
       .then(res => res.json())
       .then(results => {
-        console.log(results.totalNutrients);
         const resultIngredient = {
           name: name,
           // meal_id: mealId,
