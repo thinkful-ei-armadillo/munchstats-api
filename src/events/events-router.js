@@ -49,7 +49,8 @@ eventsRouter
 // post a new event to the database
 eventsRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
-    const { user_id, name, date, tag, calories, protein, fat, carbs } = req.body;
+    const {name, date, tag, calories, protein, fat, carbs } = req.body;
+    const user_id = req.user.id;
     EventsService.insertEvent(
       req.app.get('db'),
       { user_id,
