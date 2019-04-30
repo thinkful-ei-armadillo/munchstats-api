@@ -30,21 +30,21 @@ eventsRouter
   })
 
 // display all of a user's events
-eventsRouter
-  .get('/', async (req, res, next) => {
-    try {
-      const event = await EventsService.getAllUserEvents(
-        req.app.get('db'),
-        req.user.id
-      );
-      res.json({
-        event
-      })
-      next()
-    } catch(error){
-      next(error)
-    }
-  });
+// eventsRouter
+//   .get('/', async (req, res, next) => {
+//     try {
+//       const event = await EventsService.getAllUserEvents(
+//         req.app.get('db'),
+//         req.user.id
+//       );
+//       res.json({
+//         event
+//       })
+//       next()
+//     } catch(error){
+//       next(error)
+//     }
+//   });
 
 // post a new event to the database
 eventsRouter
@@ -85,6 +85,7 @@ eventsRouter
   });
 
 // get only one event by id
+// start end
 eventsRouter
   .get('/:eventId', jsonBodyParser, (req, res, next) => {
     EventsService.getSingleUserEvent(
@@ -100,7 +101,8 @@ eventsRouter
 
 //get one event by date
 eventsRouter
-  .get('/:date', jsonBodyParser, (req, res, next) => {
+  .get('/date', jsonBodyParser, (req, res, next) => {
+      const { start, end } = req.body
       EventsService.getUserEventByDate(
           req.app.get('db'),
           req.user.id,

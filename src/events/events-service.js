@@ -15,11 +15,14 @@ const EventsService = {
       .where({user_id, id});
   },
 
-  getUserEventByDate(db, user_id, date){
+  getUserEventByDate(db, user_id, start, end){
     return db
       .from('events'
       .select('*'))
-      .where({user_id, date});
+      //between?
+      .where({user_id})
+      .andWhere('date', '>=', start)
+      .andWhere('date', '<', end);
   },
 
   insertEvent(db, newEvent){
