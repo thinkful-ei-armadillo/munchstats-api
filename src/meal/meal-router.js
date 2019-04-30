@@ -102,6 +102,11 @@ mealRouter
       Number(req.params.mealId)
     )
       .then(meal => {
+        if(!meal) {
+          return res.status(404).json({
+            error: { message : 'Meal not found'}
+          });
+        }
         res.status(200).json(meal);
       })
       .catch(next);
