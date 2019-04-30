@@ -17,10 +17,10 @@ const EventsService = {
 
   getUserEventByDate(db, user_id, start, end){
     return db
-      .from('events'
-      .select('*'))
-      //between?
+      .from('events')
+      .select('*')
       .where({user_id})
+      // date range 
       .andWhere('date', '>=', start)
       .andWhere('date', '<', end);
   },

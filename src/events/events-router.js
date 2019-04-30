@@ -85,7 +85,6 @@ eventsRouter
   });
 
 // get only one event by id
-// start end
 eventsRouter
   .get('/:eventId', jsonBodyParser, (req, res, next) => {
     EventsService.getSingleUserEvent(
@@ -99,18 +98,19 @@ eventsRouter
       .catch(next);
   });
 
-//get one event by date
+//get events inside a range of dates
 eventsRouter
-  .get('/date', jsonBodyParser, (req, res, next) => {
+  .post('/date', jsonBodyParser, (req, res, next) => {
       const { start, end } = req.body
       EventsService.getUserEventByDate(
           req.app.get('db'),
           req.user.id,
           //need to discuss format of date
-          req.params.date
+          start,
+          end
       )
-      .then(event => {
-          res.status(200).json(event);
+      .then(events => {
+          res.status(200).json(events);
       })
       .catch(next);
   })
