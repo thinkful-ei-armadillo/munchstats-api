@@ -50,6 +50,15 @@ eventsRouter
 eventsRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const {name, date, tag, calories, protein, fat, carbs } = req.body;
+    const fields = ['name', 'date'];
+
+    for (const field of fields) {
+        if (!req.body[field])
+            return res.status(400).json({
+                error: `Missing '${field}' in request body`
+            });
+    }
+
     const user_id = req.user.id;
     EventsService.insertEvent(
       req.app.get('db'),
@@ -73,11 +82,11 @@ eventsRouter
 eventsRouter
   .delete('/', jsonBodyParser, async (req, res, next) => {
     const { event } = req.body;
-    const delevent = event;
+    const delEvent = event;
 
     EventsService.deleteEvent(
       req.app.get('db'),
-      delevent
+      delEvent
     )
       .then(event => {
         res.status(200).json(event)
@@ -94,6 +103,11 @@ eventsRouter
       Number(req.params.eventId)
     )
       .then(event => {
+        if(!event) {
+          return res.status(404).json({
+            error: { message : 'Event not found'}
+          });
+        }
         res.status(200).json(event);
       })
       .catch(next);
@@ -103,6 +117,15 @@ eventsRouter
 eventsRouter
   .post('/date', jsonBodyParser, (req, res, next) => {
       const { start, end } = req.body
+      const fields = ['start', 'end'];
+
+      for (const field of fields) {
+          if (!req.body[field])
+              return res.status(400).json({
+                  error: `Missing '${field}' in request body`
+              });
+      }
+
       EventsService.getUserEventByDate(
           req.app.get('db'),
           req.user.id,
@@ -111,6 +134,11 @@ eventsRouter
           end
       )
       .then(events => {
+          if(!events) {
+              return res.status(404).json({
+            error: { message : 'No events found in that date range'}
+          });
+          }
           res.status(200).json(events);
       })
       .catch(next);
