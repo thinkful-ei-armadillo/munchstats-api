@@ -36,6 +36,6 @@ VALUES
   (5, 1, 'christmas dinner', '2018-12-25 19:00:00', 'dinner', 1000, 40, 15, 40),
   (6, 1, 'tuesday breakfast', '2019-04-30 09:00:00', 'breakfast', 350, 12, 3, 20),
   (7, 1, 'sunday brunch', '2019-04-28 09:00:00', 'brunch', 500, 30, 15, 25),
-  (8, 1, 'wednesday breakfast', '2019-05-01 09:00:00', 'breakfast', 350, 12, 3, 20);
+  (8, 1, 'thursday breakfast', '2019-05-02 09:00:00', 'breakfast', 350, 12, 3, 20);
 
 COMMIT;
