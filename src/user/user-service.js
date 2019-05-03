@@ -18,6 +18,27 @@ const UserService = {
       .then(([user]) => user);
   },
 
+  updateUserBudgets(db, id, payload) {
+    return db
+      .from('user')
+      .where({id: id})
+      .update({
+        calorieBudget: payload.calorieBudget,
+        fatBudget: payload.fatBudget,
+        carbBudget: payload.carbBudget,
+        proteinBudget: payload.proteinBudget,
+      });
+  },
+
+  toggleUserDarkMode(db, id, payload) {
+    return db 
+      .from('user')
+      .where({id: id})
+      .update({
+        isDark: payload
+      });
+  },
+
   validatePassword(password) {
     // various new password requirements, may add more in the future
     if (password.length < 8) {
@@ -46,3 +67,4 @@ const UserService = {
 };
 
 module.exports = UserService;
+

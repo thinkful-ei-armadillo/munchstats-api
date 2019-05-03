@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const UserService = require('./user-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 const userRouter = express.Router();
 const jsonBodyParser = express.json();
 
@@ -49,5 +50,37 @@ userRouter
       next(error);
     }
   })
+
+userRouter
+  .use(requireAuth)
+  .patch('/', jsonBodyParser, (req, res, next) => {
+    const { user } = req.body;
+    const newUser = user;
+    UserService.updateUserBudgets(
+      req.app.get('db'),
+      req.user.id,
+      newUser
+    )
+      .then(user => {
+        res.status(200).json(user);
+      })
+      .catch(next);
+  });
+
+userRouter
+  .use(requireAuth)
+  .patch('/dark', jsonBodyParser, (req, res, next) => {
+    const { isDark } = req.user;
+    const newDark = !isDark;
+    UserService.toggleUserDarkMode(
+      req.app.get('db'),
+      req.user.id,
+      newDark
+    )
+      .then(user => {
+        res.status(200).json(user);
+      })
+      .catch(next);
+  });
 
 module.exports = userRouter;
