@@ -10,6 +10,12 @@ const UserService = {
       .then(user => !!user);
   },
 
+  getUserBudgets(db, id) {
+    return db('user')
+      .select('calorieBudget', 'fatBudget', 'carbBudget', 'proteinBudget', 'isDark')
+      .where({id: id});
+  },
+
   insertUser(db, newUser) {
     return db
       .insert(newUser)
