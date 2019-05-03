@@ -13,7 +13,7 @@
     "deploy": "git push heroku master"
   },
   "keywords": [],
-  "author": "Michael Bramble, Geordie/Georgie/Gordy/Jordy Connell, David Haugen, Bob Nearants",
+  "author": "Michael Bramble, Geordie/Georgie/Gordy/Jordy Connell, David Haugen, Bob Nearents",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
