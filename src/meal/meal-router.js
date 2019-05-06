@@ -50,6 +50,15 @@ mealRouter
 mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { name, user_id } = req.body;
+    const fields = ['name'];
+
+    for (const field of fields) {
+      if (!req.body[field])
+        return res.status(400).json({
+          error: `Missing '${field}' in request body`
+        });
+    }
+
     MealService.insertMeal(
       req.app.get('db'),
       {name,
@@ -72,7 +81,7 @@ mealRouter
       delMeal
     )
       .then(meal => {
-        res.status(200).json(meal)
+        res.status(200).json(delMeal)
       })
       .catch(next);
   });
@@ -88,7 +97,7 @@ mealRouter
       newMeal
     )
       .then(meal => {
-        res.status(200).json(meal);
+        res.status(200).json(newMeal);
       })
       .catch(next);
     });

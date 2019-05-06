@@ -67,6 +67,96 @@ describe.only('Meals Endpoints', function () {
             })
         );
     });
+    const requiredFields = ['name'];
 
+    requiredFields.forEach(field => {
+      const testUser = testUsers[0];
+      const newMeal = {
+        user_id: testUser.id,
+        name: 'test-event',
+        total_calorie: 300,
+        total_fat: 10,
+        total_carbs: 20,
+        total_protein: 30
+      };
+
+      it(`responds with 400 and an error message when the '${field}' is missing`, () => {
+        delete newMeal[field];
+
+        return supertest(app)
+          .post('/api/meal')
+          .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+          .send(newMeal)
+          .expect(400, {
+            error: `Missing '${field}' in request body`,
+          });
+      });
+    });
+  });
+
+  describe('DELETE /meal', () => {
+    beforeEach('insert things', () =>
+      helpers.seedMealTables(
+        db,
+        testUsers,
+        testMeals
+      )
+    );
+
+    const meal = testMeals[0];
+
+    it('deletes an meal, responds with a 200 and the meal it just deleted', function() {
+      return supertest(app)
+        .delete('/api/meal')
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .send({meal})
+        .expect(200)
+        .expect(res => {
+          expect(res.body).to.have.property('id');
+          expect(res.body.user_id).to.eql(meal.user_id);
+          expect(res.body.name).to.eql(meal.name);
+          expect(res.body.total_calorie).to.eql(meal.total_calorie);
+          expect(res.body.total_fat).to.eql(meal.total_fat);
+          expect(res.body.total_carbs).to.eql(meal.total_carbs);
+          expect(res.body.total_protein).to.eql(meal.total_protein);
+        });
+    });
+  });
+
+  describe('PATCH /meal', () => {
+    beforeEach('insert things', () =>
+      helpers.seedMealTables(
+        db,
+        testUsers,
+        testMeals
+      )
+    );
+    const testUser = testUsers[0];
+    const updateMeal = {
+      id: 1, 
+      user_id: testUser.id,
+      name: 'updated-test-event',
+      total_calorie: 500,
+      total_fat: 20,
+      total_carbs: 30,
+      total_protein: 40
+    };
+
+    it('updates a meal, responds with a 200 and the meal it just updated', function() {
+      return supertest(app)
+        .patch('/api/meal')
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .send(updateMeal)
+        .expect(200)
+        .expect(res => {
+          expect(res.body).to.have.property('id');
+          expect(res.body.user_id).to.eql(updateMeal.user_id);
+          expect(res.body.name).to.eql(updateMeal.name);
+          expect(res.body.total_calorie).to.eql(updateMeal.total_calorie);
+          expect(res.body.total_fat).to.eql(updateMeal.total_fat);
+          expect(res.body.total_carbs).to.eql(updateMeal.total_carbs);
+          expect(res.body.total_protein).to.eql(updateMeal.total_protein);
+        });
+    });
   });
 });
