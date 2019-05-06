@@ -6,18 +6,7 @@ const userRouter = express.Router();
 const jsonBodyParser = express.json();
 
 
-userRouter
-  .use(requireAuth) 
-  .get('/', async (req, res, next) => {
-    const user = await UserService.getUserBudgets(
-      req.app.get('db'),
-      req.user.id
-    );
-    console.log(user)
-    res.json({
-      user
-    })
-  })
+
 
 userRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
@@ -67,6 +56,31 @@ userRouter
 
 userRouter
   .use(requireAuth)
+  .get('/', async (req, res, next) => {
+    const user = await UserService.getUserBudgets(
+      req.app.get('db'),
+      req.user.id
+    );
+    res.json({
+      user
+    })
+  })
+
+userRouter
+  .use(requireAuth)
+  .get('/', async (req, res, next) => {
+    const user = await UserService.getUserBudgets(
+      req.app.get('db'),
+      req.user.id
+    );
+    console.log(user)
+    res.json({
+      user
+    })
+  })
+
+userRouter
+  .use(requireAuth)
   .patch('/', jsonBodyParser, (req, res, next) => {
     const { user } = req.body;
     const newUser = user;
@@ -75,8 +89,8 @@ userRouter
       req.user.id,
       newUser
     )
-      .then(user => {
-        res.status(200).json(user);
+      .then(() => {
+        res.status(200).json(newUser);
       })
       .catch(next);
   });
@@ -91,8 +105,8 @@ userRouter
       req.user.id,
       newDark
     )
-      .then(user => {
-        res.status(200).json(user);
+      .then(() => {
+        res.status(200).json(newDark);
       })
       .catch(next);
   });

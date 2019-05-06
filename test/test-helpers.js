@@ -24,13 +24,60 @@ function makeUsersArray() {
       username: 'test-user-1',
       name: 'Test user 1',
       password: 'password',
+      calorieBudget: 2000,
+      fatBudget: 100,
+      carbBudget: 100,
+      proteinBudget:100
     },
     {
       id: 2,
       username: 'test-user-2',
       name: 'Test user 2',
       password: 'password',
+      calorieBudget: 2000,
+      fatBudget: 100,
+      carbBudget: 100,
+      proteinBudget: 100
     },
+  ]
+}
+function makeMealsArray() {
+  return [{
+      id: 1,
+      user_id: 1,
+      name: 'test-breakfast',
+      total_calorie: 500,
+      total_fat: 15,
+      total_carbs: 30,
+      total_protein: 20
+    },
+    {
+      id: 2,
+      user_id: 1,
+      name: 'test-lunch',
+      total_calorie: 400,
+      total_fat: 10,
+      total_carbs: 40,
+      total_protein: 25
+    },
+    {
+      id: 3,
+      user_id: 1,
+      name: 'test-dinner',
+      total_calorie: 600,
+      total_fat: 20,
+      total_carbs: 40,
+      total_protein: 30
+    },
+    {
+      id: 4,
+      user_id: 1,
+      name: 'test-brunch',
+      total_calorie: 1000,
+      total_fat: 40,
+      total_carbs: 50,
+      total_protein: 30
+    }
   ]
 }
 
@@ -133,6 +180,15 @@ function seedUsers(db, users) {
   })
 }
 
+function seedMealTables(db, users, meals = []) {
+  return seedUsers(db, users)
+    .then(() =>
+      db
+      .into('meal')
+      .insert(meals)
+    )
+}
+
 function seedEventsTables(db, users, events = []) {
   return seedUsers(db, users)
     .then(() =>
@@ -145,9 +201,11 @@ function seedEventsTables(db, users, events = []) {
 module.exports = {
   makeKnexInstance,
   makeUsersArray,
+  makeMealsArray,
   makeEventsArray,
   makeAuthHeader,
   cleanTables,
   seedUsers,
+  seedMealTables,
   seedEventsTables
 }
