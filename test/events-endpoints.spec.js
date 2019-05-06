@@ -128,4 +128,20 @@ describe.only('Events Endpoints', function () {
         });
     });
   });
+
+  describe('POST /events/date', () => {
+    beforeEach('insert things', () =>
+      helpers.seedEventsTables(
+        db,
+        testUsers,
+        testEvents
+      )
+    );
+
+    it('finds a group of events in a given range of dates, returns a 200, and the events in that range', function() {
+        
+    })
+
+  })
+  
 });
