@@ -84,12 +84,14 @@ eventsRouter
     const { event } = req.body;
     const delEvent = event;
 
+    console.log(delEvent);
+
     EventsService.deleteEvent(
       req.app.get('db'),
       delEvent
     )
       .then(event => {
-        res.status(200).json(event)
+        res.status(200).json(delEvent)
       })
       .catch(next);
   });

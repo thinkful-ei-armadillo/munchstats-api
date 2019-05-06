@@ -32,7 +32,7 @@ describe.only('Events Endpoints', function () {
       )
     );
 
-    it('creates a event, responding with 201 and the new event', function () {
+    it('creates a event, responding with 201', function () {
     //   this.retries(3);
       const testUser = testUsers[0];
       const newEvent = {
@@ -95,6 +95,37 @@ describe.only('Events Endpoints', function () {
             error: `Missing '${field}' in request body`,
           });
       });
+    });
+  });
+
+  describe('DELETE /events', () => {
+    beforeEach('insert things', () =>
+      helpers.seedEventsTables(
+        db,
+        testUsers,
+        testEvents
+      )
+    );
+
+    const event = testEvents[0];
+
+    it('deletes an event, responds with a 200 and the event it just deleted', function() {
+      return supertest(app)
+        .delete('/api/events')
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .send({event})
+        .expect(200)
+        .expect(res => {
+          expect(res.body).to.have.property('id');
+          expect(res.body.user_id).to.eql(event.user_id);
+          expect(res.body.name).to.eql(event.name);
+          expect(res.body.date).to.eql(event.date);
+          expect(res.body.tag).to.eql(event.tag);
+          expect(res.body.calories).to.eql(event.calories);
+          expect(res.body.fat).to.eql(event.fat);
+          expect(res.body.carbs).to.eql(event.carbs);
+          expect(res.body.protein).to.eql(event.protein);
+        });
     });
   });
 });
