@@ -84,8 +84,6 @@ eventsRouter
     const { event } = req.body;
     const delEvent = event;
 
-    console.log(delEvent);
-
     EventsService.deleteEvent(
       req.app.get('db'),
       delEvent
@@ -136,7 +134,7 @@ eventsRouter
           end
       )
       .then(events => {
-          if(!events) {
+          if(!events[0]) {
               return res.status(404).json({
             error: { message : 'No events found in that date range'}
           });
