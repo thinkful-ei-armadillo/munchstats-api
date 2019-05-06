@@ -6,18 +6,7 @@ const userRouter = express.Router();
 const jsonBodyParser = express.json();
 
 
-userRouter
-  .use(requireAuth) 
-  .get('/', async (req, res, next) => {
-    const user = await UserService.getUserBudgets(
-      req.app.get('db'),
-      req.user.id
-    );
-    console.log(user)
-    res.json({
-      user
-    })
-  })
+
 
 userRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
@@ -72,6 +61,19 @@ userRouter
       req.app.get('db'),
       req.user.id
     );
+    res.json({
+      user
+    })
+  })
+
+userRouter
+  .use(requireAuth)
+  .get('/', async (req, res, next) => {
+    const user = await UserService.getUserBudgets(
+      req.app.get('db'),
+      req.user.id
+    );
+    console.log(user)
     res.json({
       user
     })
