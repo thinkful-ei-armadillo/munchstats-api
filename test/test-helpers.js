@@ -7,9 +7,10 @@ const jwt = require('jsonwebtoken')
  * @returns {knex instance}
  */
 function makeKnexInstance() {
+  console.log(process.env.TEST_DB_URL);
   return knex({
     client: 'pg',
-    connection: process.env.DB_URL,
+    connection: process.env.TEST_DB_URL,
   })
 }
 
