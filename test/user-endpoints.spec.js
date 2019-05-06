@@ -155,4 +155,71 @@ describe('User Endpoints', function () {
       });
     });
   });
+
+
+  describe('PATCH /api/user', () => {
+    beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
+    context('with incorrect bearer token and valid data', () => {
+      it('responds 401 unauthorized', () => {
+        return supertest(app)
+          .patch('/api/user')
+          .set('Authorization', helpers.makeAuthHeader(testUser, 'not a very good secret'))
+          .expect(401)
+      })
+    })
+    context('with correct bearer token and valid data', () => {
+      it('responds 200 OK', () => {
+        let newBudgets = ({'user':{
+          calorieBudget:2000,
+          fatBudget:50,
+          proteinBudget:50,
+          carbBudget:50
+        }})
+        return supertest(app)
+          .patch('/api/user')
+          .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+          .send(newBudgets)
+          .expect(200)
+          .expect(res => {
+            let budgets = res.body
+            expect(budgets.calorieBudget).to.eql(newBudgets.user.calorieBudget);
+            expect(budgets.fatBudget).to.eql(newBudgets.user.fatBudget);
+            expect(budgets.carbBudget).to.eql(newBudgets.user.carbBudget);
+            expect(budgets.proteinBudget).to.eql(newBudgets.user.proteinBudget);
+          });
+      })
+    })
+  })
+  describe('PATCH /api/user/dark', () => {
+    beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
+    context('with correct bearer token', () => {
+      it('responds 200 OK', () => {
+
+        return supertest(app)
+          .patch('/api/user/dark')
+          .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+          .expect(200) 
+      })
+    })
+  })
+  describe('GET /api/user', () => {
+    beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
+    context('with correct bearer token', () => {
+      it('responds with user budgets', () => {
+        return supertest(app)
+          .get('/api/user')
+          .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+          .expect(200)
+          .expect(res => {
+            let user = res.body.user[0]
+            expect(user.calorieBudget).to.eql(testUser.calorieBudget);
+            expect(user.fatBudget).to.eql(testUser.fatBudget);
+            expect(user.carbBudget).to.eql(testUser.carbBudget);
+            expect(user.proteinBudget).to.eql(testUser.proteinBudget);
+          });
+      })
+    })
+  })
 });
+
+

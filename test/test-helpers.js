@@ -24,12 +24,20 @@ function makeUsersArray() {
       username: 'test-user-1',
       name: 'Test user 1',
       password: 'password',
+      calorieBudget: 2000,
+      fatBudget: 100,
+      carbBudget: 100,
+      proteinBudget:100
     },
     {
       id: 2,
       username: 'test-user-2',
       name: 'Test user 2',
       password: 'password',
+      calorieBudget: 2000,
+      fatBudget: 100,
+      carbBudget: 100,
+      proteinBudget: 100
     },
   ]
 }
@@ -57,20 +65,21 @@ function cleanTables(db) {
   return db.transaction(trx =>
     trx.raw(
       `TRUNCATE
-        "word",
-        "language",
+        "events",
+        "ingredients",
+        "meal",
         "user"`
       )
-      .then(() =>
-        Promise.all([
-          trx.raw(`ALTER SEQUENCE word_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`ALTER SEQUENCE language_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`ALTER SEQUENCE user_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`SELECT setval('word_id_seq', 0)`),
-          trx.raw(`SELECT setval('language_id_seq', 0)`),
-          trx.raw(`SELECT setval('user_id_seq', 0)`),
-        ])
-      )
+      // .then(() =>
+      //   Promise.all([
+      //     trx.raw(`ALTER SEQUENCE word_id_seq minvalue 0 START WITH 1`),
+      //     trx.raw(`ALTER SEQUENCE language_id_seq minvalue 0 START WITH 1`),
+      //     trx.raw(`ALTER SEQUENCE user_id_seq minvalue 0 START WITH 1`),
+      //     trx.raw(`SELECT setval('word_id_seq', 0)`),
+      //     trx.raw(`SELECT setval('language_id_seq', 0)`),
+      //     trx.raw(`SELECT setval('user_id_seq', 0)`),
+      //   ])
+      // )
   )
 }
 
