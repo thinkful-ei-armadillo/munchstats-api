@@ -50,7 +50,7 @@ eventsRouter
 eventsRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const {name, date, tag, calories, protein, fat, carbs } = req.body;
-    const fields = ['name', 'date'];
+    const fields = ['name'];
 
     for (const field of fields) {
         if (!req.body[field])

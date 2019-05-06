@@ -34,6 +34,54 @@ function makeUsersArray() {
   ]
 }
 
+function makeEventsArray() {
+  return [{
+      id: 1,
+      user_id: 1,
+      name: 'test-breakfast',
+      date: '2019-05-06 09:00:00',
+      tag: 'breakfast',
+      calories: 500,
+      fat: 15,
+      carbs: 30,
+      protein: 20
+    },
+    {
+      id: 2,
+      user_id: 1,
+      name: 'test-lunch',
+      date: '2019-05-06 12:00:00',
+      tag: 'lunch',
+      calories: 600,
+      fat: 5,
+      carbs: 35,
+      protein: 30
+    },
+    {
+      id: 3,
+      user_id: 1,
+      name: 'test-dinner',
+      date: '2019-05-06 18:00:00',
+      tag: 'dinner',
+      calories: 600,
+      fat: 25,
+      carbs: 50,
+      protein: 35
+    },
+    {
+      id: 4,
+      user_id: 1,
+      name: 'test-brunch',
+      date: '2019-05-05 11:00:00',
+      tag: 'dinner',
+      calories: 1000,
+      fat: 40,
+      carbs: 60,
+      protein: 50
+    }
+  ]
+}
+
 /**
  * make a bearer token with jwt for authorization header
  * @param {object} user - contains `id`, `username`
@@ -49,27 +97,17 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 }
 
 /**
- * remove data from tables and reset sequences for SERIAL id fields
+ * remove data from tables
  * @param {knex instance} db
- * @returns {Promise} - when tables are cleared
  */
 function cleanTables(db) {
   return db.transaction(trx =>
     trx.raw(
       `TRUNCATE
-        "word",
-        "language",
-        "user"`
-      )
-      .then(() =>
-        Promise.all([
-          trx.raw(`ALTER SEQUENCE word_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`ALTER SEQUENCE language_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`ALTER SEQUENCE user_id_seq minvalue 0 START WITH 1`),
-          trx.raw(`SELECT setval('word_id_seq', 0)`),
-          trx.raw(`SELECT setval('language_id_seq', 0)`),
-          trx.raw(`SELECT setval('user_id_seq', 0)`),
-        ])
+        "meal",
+        "ingredients",
+        "user",
+        "events"`
       )
   )
 }
@@ -95,10 +133,21 @@ function seedUsers(db, users) {
   })
 }
 
+function seedEventsTables(db, users, events = []) {
+  return seedUsers(db, users)
+    .then(() =>
+      db
+      .into('events')
+      .insert(events)
+    )
+}
+
 module.exports = {
   makeKnexInstance,
   makeUsersArray,
+  makeEventsArray,
   makeAuthHeader,
   cleanTables,
   seedUsers,
+  seedEventsTables
 }
