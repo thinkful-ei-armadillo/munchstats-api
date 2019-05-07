@@ -44,4 +44,9 @@ VALUES
   (7, 1, 'sunday brunch', '2019-04-28 09:00:00', 'brunch', 500, 30, 15, 25),
   (8, 1, 'thursday breakfast', '2019-05-02 09:00:00', 'breakfast', 350, 12, 3, 20);
 
+SELECT setval('events_id_seq', (SELECT MAX(id) from "events"));
+SELECT setval('ingredients_id_seq', (SELECT MAX(id) from "ingredients"));
+SELECT setval('meal_id_seq', (SELECT MAX(id) from "meal"));
+SELECT setval('user_id_seq', (SELECT MAX(id) from "user"));
+
 COMMIT;

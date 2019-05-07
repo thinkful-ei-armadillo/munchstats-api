@@ -152,11 +152,23 @@ function cleanTables(db) {
   return db.transaction(trx =>
     trx.raw(
       `TRUNCATE
-        "meal",
+        "events",
         "ingredients",
-        "user",
-        "events"`
-      )
+        "meal",
+        "user"`
+    )
+    .then(() =>
+      Promise.all([
+        trx.raw(`ALTER SEQUENCE events_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`ALTER SEQUENCE ingredients_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`ALTER SEQUENCE meal_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`ALTER SEQUENCE user_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`SELECT setval('events_id_seq', 10)`),
+        trx.raw(`SELECT setval('ingredients_id_seq', 10)`),
+        trx.raw(`SELECT setval('meal_id_seq', 10)`),
+        trx.raw(`SELECT setval('user_id_seq', 10)`),
+      ])
+    )
   )
 }
 
