@@ -89,15 +89,13 @@ mealRouter
 // update meal info in database
 mealRouter
   .patch('/', jsonBodyParser, (req, res, next) => {
-    const { meal } = req.body;
-    const newMeal = meal;
 
     MealService.updateMeal(
       req.app.get('db'),
-      newMeal
+      req.body
     )
       .then(meal => {
-        res.status(200).json(newMeal);
+        res.status(200).json(req.body);
       })
       .catch(next);
     });
@@ -111,7 +109,7 @@ mealRouter
       Number(req.params.mealId)
     )
       .then(meal => {
-        if(!meal) {
+        if(meal.length === 0) {
           return res.status(404).json({
             error: { message : 'Meal not found'}
           });

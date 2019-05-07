@@ -62,7 +62,7 @@ function makeMealsArray() {
     },
     {
       id: 3,
-      user_id: 1,
+      user_id: 2,
       name: 'test-dinner',
       total_calorie: 600,
       total_fat: 20,

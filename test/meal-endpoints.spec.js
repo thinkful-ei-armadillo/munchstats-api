@@ -159,4 +159,73 @@ describe.only('Meals Endpoints', function () {
         });
     });
   });
+
+  describe('GET /meal', () => {
+    beforeEach('insert things', () =>
+      helpers.seedMealTables(
+        db,
+        testUsers,
+        testMeals
+      )
+    );
+    const testUser = testUsers[0];
+    const userMeals = [ testMeals[0], testMeals[1], testMeals[3] ];
+    it('gets all of the user meals, a 200 response and the list of meals', function() {
+      return supertest(app)
+        .get('/api/meal')
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .expect(200)
+        .expect(res => {
+          expect(res.body.length === userMeals.length);
+          for(let i = 0; i < res.length; i++) {
+            expect(res.body[i]).to.have.property('id');
+            expect(res.body[i].user_id).to.eql(userMeals[i].user_id);
+            expect(res.body[i].name).to.eql(userMeals[i].name);
+            expect(res.body[i].date).to.eql(userMeals[i].date);
+            expect(res.body[i].tag).to.eql(userMeals[i].tag);
+            expect(res.body[i].calories).to.eql(userMeals[i].calories);
+            expect(res.body[i].fat).to.eql(userMeals[i].fat);
+            expect(res.body[i].carbs).to.eql(userMeals[i].carbs);
+            expect(res.body[i].protein).to.eql(userMeals[i].protein);
+          }
+        });
+    });
+  });
+
+  describe('GET /meal/:mealId', () => {
+    beforeEach('insert things', () =>
+      helpers.seedMealTables(
+        db,
+        testUsers,
+        testMeals
+      )
+    );
+    const testUser = testUsers[0];
+    const meal1 = testMeals[0];
+    it('gets the user meal by id, returns a 200 and the meal', function() {
+      return supertest(app)
+        .get(`/api/meal/${meal1.id}`)
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .expect(200)
+        .expect(res => {
+          expect(res.body[0]).to.have.property('id');
+          expect(res.body[0].user_id).to.eql(testUser.id);
+          expect(res.body[0].name).to.eql(meal1.name);
+          expect(res.body[0].date).to.eql(meal1.date);
+          expect(res.body[0].tag).to.eql(meal1.tag);
+          expect(res.body[0].calories).to.eql(meal1.calories);
+          expect(res.body[0].fat).to.eql(meal1.fat);
+          expect(res.body[0].carbs).to.eql(meal1.carbs);
+          expect(res.body[0].protein).to.eql(meal1.protein);
+        });
+    });
+    it('tries to look an id that does not exist, returns a 404', function() {
+      return supertest(app)
+        .get('/api/meal/99999')
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .expect(404, {
+          error: { message : 'Meal not found'}
+        });
+    });
+  });
 });
