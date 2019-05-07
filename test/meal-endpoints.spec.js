@@ -69,6 +69,7 @@ describe('Meals Endpoints', function () {
     });
     const requiredFields = ['name'];
 
+    
     requiredFields.forEach(field => {
       const testUser = testUsers[0];
       const newMeal = {
