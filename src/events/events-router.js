@@ -50,7 +50,7 @@ eventsRouter
 eventsRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const {name, date, tag, calories, protein, fat, carbs } = req.body;
-    const fields = ['name', 'date'];
+    const fields = ['name'];
 
     for (const field of fields) {
         if (!req.body[field])
@@ -89,7 +89,7 @@ eventsRouter
       delEvent
     )
       .then(event => {
-        res.status(200).json(event)
+        res.status(200).json(delEvent)
       })
       .catch(next);
   });
@@ -103,7 +103,7 @@ eventsRouter
       Number(req.params.eventId)
     )
       .then(event => {
-        if(!event) {
+        if(event.length === 0) {
           return res.status(404).json({
             error: { message : 'Event not found'}
           });
@@ -134,7 +134,7 @@ eventsRouter
           end
       )
       .then(events => {
-          if(!events) {
+          if(!events[0]) {
               return res.status(404).json({
             error: { message : 'No events found in that date range'}
           });

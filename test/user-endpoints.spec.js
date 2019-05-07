@@ -159,7 +159,7 @@ describe('User Endpoints', function () {
 
   describe('PATCH /api/user', () => {
     beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
-    context('with incorrect bearer token', () => {
+    context('with incorrect bearer token and valid data', () => {
       it('responds 401 unauthorized', () => {
         return supertest(app)
           .patch('/api/user')

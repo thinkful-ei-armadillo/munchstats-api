@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const { requireAuth } = require('../middleware/jwt-auth');
 const apiProxyRouter = express.Router();

@@ -6,14 +6,15 @@
   "scripts": {
     "test": "mocha --require test/setup.js",
     "dev": "nodemon src/server.js",
+    "deploy": "git push heroku master",
     "migrate": "postgrator --config postgrator-config.js",
     "migrate-production": "postgrator --config postgrator-production-config.js",
+    "migrate-test": "postgrator --config postgrator-test-config.js",
     "start": "node src/server.js",
-    "predeploy": "npm audit && npm run migrate-production",
-    "deploy": "git push heroku master"
+    "predeploy": "npm audit && npm run migrate-production"
   },
   "keywords": [],
-  "author": "Michael Bramble, Geordie/Georgie/Gordy/Jordy Connell, David Haugen, Bob Nearants",
+  "author": "Michael Bramble, Geordie/Georgie/Gordy/Jordy Connell, David Haugen, Bob Nearents",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -26,6 +27,7 @@
     "morgan": "^1.9.1",
     "node-fetch": "^2.3.0",
     "pg": "^7.8.2",
+    "sequelize": "^5.8.5",
     "xss": "^1.0.6"
   },
   "devDependencies": {
