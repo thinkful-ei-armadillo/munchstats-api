@@ -219,6 +219,14 @@ describe('User Endpoints', function () {
           });
       })
     })
+    context('with incorrect bearer token', () => {
+      it('responds with 401 unauthorized', () => {
+        return supertest(app)
+          .get('/api/user')
+          .set('Authorization', 'no good secret')
+          .expect(401)
+      })
+    })
   })
 });
 

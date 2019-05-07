@@ -69,6 +69,7 @@ describe('Meals Endpoints', function () {
     });
     const requiredFields = ['name'];
 
+    
     requiredFields.forEach(field => {
       const testUser = testUsers[0];
       const newMeal = {
@@ -123,7 +124,7 @@ describe('Meals Endpoints', function () {
     });
   });
 
-  describe('PATCH /meal', () => {
+  describe.skip('PATCH /meal', () => {
     beforeEach('insert things', () =>
       helpers.seedMealTables(
         db,
