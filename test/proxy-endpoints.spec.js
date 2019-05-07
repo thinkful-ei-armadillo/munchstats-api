@@ -21,7 +21,7 @@ describe('proxy endpoints', function () {
 
   describe('POST /api/proxy/foods', () => {
     context('with correct bearer token and valid meal_id', () => {
-      it('responds 200 OK, and gets all ingredients from meal', () => {
+      it.skip('responds 200 OK, and gets all ingredients from meal', () => {
         return supertest(app)
           .post('/api/proxy/foods')
           .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
@@ -55,7 +55,7 @@ describe('proxy endpoints', function () {
           })
         })
       })
-      context('with correct bearer token and no valid results', () => {
+      context.skip('with correct bearer token and no valid results', () => {
         it('responds 400 Bad Request, and sends valid error message', () => {
           return supertest(app)
           .post('/api/proxy/foods')
@@ -70,7 +70,7 @@ describe('proxy endpoints', function () {
  })
   describe('POST /api/proxy/nutrition', () => {
     context('with correct bearer token and valid meal_id', () => {
-      it('responds 200 OK, and gets all ingredients from meal', () => {
+      it.skip('responds 200 OK, and gets all ingredients from meal', () => {
         let ingredients = [{
           quantity: 1, measureURI: 'http://www.edamam.com/ontologies/edamam.owl#Measure_cup', foodId: 'food_aop5qt1bqbntvmbbvbxzaay2dwxo'}]
         let body = { ingredients, name:'peanut butter', label: 'Cup', quantity:1 }
