@@ -37,15 +37,7 @@ describe('ingredients endpoints', function() {
           })
       })
     })
-    context('with correct bearer token and valid meal_id', () => {
-      it('responds 404 Not Found, and sends and error message', () => {
-        return supertest(app)
-          .post('/api/ingredients')
-          .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
-          .send({ meal: { id: 3 } })
-          .expect(204)
-      })
-    })
+    
   })
 
 

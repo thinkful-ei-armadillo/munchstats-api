@@ -89,10 +89,11 @@ mealRouter
 // update meal info in database
 mealRouter
   .patch('/', jsonBodyParser, (req, res, next) => {
-
+  const { meal } = req.body;
+  const newMeal = meal;
     MealService.updateMeal(
       req.app.get('db'),
-      req.body
+      newMeal
     )
       .then(meal => {
         res.status(200).json(req.body);

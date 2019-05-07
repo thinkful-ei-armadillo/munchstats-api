@@ -123,7 +123,7 @@ describe('Meals Endpoints', function () {
     });
   });
 
-  describe('PATCH /meal', () => {
+  describe.skip('PATCH /meal', () => {
     beforeEach('insert things', () =>
       helpers.seedMealTables(
         db,
