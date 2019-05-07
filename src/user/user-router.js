@@ -73,7 +73,6 @@ userRouter
       req.app.get('db'),
       req.user.id
     );
-    console.log(user)
     res.json({
       user
     })

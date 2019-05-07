@@ -159,7 +159,7 @@ describe('User Endpoints', function () {
 
   describe('PATCH /api/user', () => {
     beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
-    context('with incorrect bearer token and valid data', () => {
+    context('with incorrect bearer token', () => {
       it('responds 401 unauthorized', () => {
         return supertest(app)
           .patch('/api/user')
@@ -217,6 +217,14 @@ describe('User Endpoints', function () {
             expect(user.carbBudget).to.eql(testUser.carbBudget);
             expect(user.proteinBudget).to.eql(testUser.proteinBudget);
           });
+      })
+    })
+    context('with incorrect bearer token', () => {
+      it('responds with 401 unauthorized', () => {
+        return supertest(app)
+          .get('/api/user')
+          .set('Authorization', 'no good secret')
+          .expect(401)
       })
     })
   })

@@ -42,6 +42,69 @@ function makeUsersArray() {
   ]
 }
 
+function makeMealsArray() {
+  return [
+    {
+      id: 1,
+      name: 'test meal 1',
+      user_id: 1
+    },
+    {
+      id: 2,
+      name: 'test meal 2',
+      user_id: 1
+    }
+  ]
+}
+function makeIngredientsArray() {
+  return [
+    {
+      id: 1,
+      name: 'Test ingredient 1',
+      meal_id: 1,
+      total_calorie: 55,
+      total_fat: 10,
+      total_carbs: 1,
+      total_protein: 2,
+      amount:1,
+      unit:'kg'
+    },
+    {
+      id: 2,
+      name: 'Test ingredient 2',
+      meal_id: 1,
+      total_calorie: 432,
+      total_fat: 50,
+      total_carbs: 0,
+      total_protein: 10,
+      amount: 10,
+      unit: 'ounces'
+    },
+    {
+      id: 3,
+      name: 'Test ingredient 3',
+      meal_id: 1,
+      total_calorie: 111,
+      total_fat: 0,
+      total_carbs: 100,
+      total_protein: 100,
+      amount: 1,
+      unit: 'serving'
+    },
+    {
+      id: 4,
+      name: 'Test ingredient 4',
+      meal_id: 2,
+      total_calorie: 562,
+      total_fat: 50,
+      total_carbs: 120,
+      total_protein: 70,
+      amount: 4,
+      unit: 'pounds'
+    },
+  ]
+}
+
 /**
  * make a bearer token with jwt for authorization header
  * @param {object} user - contains `id`, `username`
@@ -104,10 +167,20 @@ function seedUsers(db, users) {
   })
 }
 
+function seedIngredientsAndMeals(db, ingredients, meals) {
+   return db.transaction(async trx => {
+     await trx.into('meal').insert(meals)
+     await trx.into('ingredients').insert(ingredients)
+   })
+}
+
 module.exports = {
   makeKnexInstance,
   makeUsersArray,
   makeAuthHeader,
   cleanTables,
   seedUsers,
+  makeIngredientsArray,
+  makeMealsArray,
+  seedIngredientsAndMeals
 }

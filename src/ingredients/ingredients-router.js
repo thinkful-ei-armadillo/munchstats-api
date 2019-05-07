@@ -16,10 +16,8 @@ ingredientRouter
         req.body.meal.id
       );
 
-      if(!ingredients){
-        return res.status(404).json({
-          error: `You don't have any ingredients.`
-        })
+      if(ingredients.length === 0){
+        return res.status(204).end()
       }
 
       res.json({ingredients});
@@ -34,7 +32,7 @@ ingredientRouter
         req.body.ingredient_id
     )
     .then((resjson) => {
-        res.status(200).json(resjson);
+      res.status(200).json(req.body.ingredient_id);
     })
     .catch(next);
   });
@@ -52,6 +50,12 @@ ingredientRouter
       meal_id
     )
       .then(ingredient => {
+        console.log(ingredient)
+        if(!ingredient[0].amount){
+          return res.status(400).json({
+            error : 'Must include quantity in amount'
+          })
+        }
         res.status(201).send(ingredient);
       })
       .catch(next);
