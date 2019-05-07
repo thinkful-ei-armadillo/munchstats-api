@@ -204,5 +204,42 @@ describe('Events Endpoints', function () {
         });
     });
   });
+
+  describe('GET /events/:eventId', () => {
+    beforeEach('insert things', () =>
+      helpers.seedEventsTables(
+        db,
+        testUsers,
+        testEvents
+      )
+    );
+    const testUser = testUsers[0];
+    const event1 = testEvents[0];
+    it('gets event by id, returns a 200 and the event', function() {
+      return supertest(app)
+        .get(`/api/events/${event1.id}`)
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .expect(200)
+        .expect(res => {
+          expect(res.body[0]).to.have.property('id');
+          expect(res.body[0].user_id).to.eql(testUser.id);
+          expect(res.body[0].name).to.eql(event1.name);
+          expect(res.body[0].tag).to.eql(event1.tag);
+          expect(res.body[0].calories).to.eql(event1.calories);
+          expect(res.body[0].fat).to.eql(event1.fat);
+          expect(res.body[0].carbs).to.eql(event1.carbs);
+          expect(res.body[0].protein).to.eql(event1.protein);
+        });
+    });
+    it('tries to find an event tht does not exist, returns 404', function() {
+      return supertest(app)
+        .get('/api/events/99999')
+        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
+        .expect(404, {
+          error: { message : 'Event not found'}
+        });
+    });
+
+  });
   
 });

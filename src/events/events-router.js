@@ -103,7 +103,7 @@ eventsRouter
       Number(req.params.eventId)
     )
       .then(event => {
-        if(!event) {
+        if(event.length === 0) {
           return res.status(404).json({
             error: { message : 'Event not found'}
           });
