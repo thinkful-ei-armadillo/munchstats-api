@@ -14,7 +14,7 @@
     "predeploy": "npm audit && npm run migrate-production"
   },
   "keywords": [],
-  "author": "Michael Bramble, Geordie/Georgie/Gordy/Jordy Connell, David Haugen, Bob Nearants",
+  "author": "Michael Bramble, Geordie/Georgie/Gordy/Jordy Connell, David Haugen, Bob Nearents",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

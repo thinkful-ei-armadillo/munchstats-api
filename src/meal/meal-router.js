@@ -50,6 +50,15 @@ mealRouter
 mealRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { name, user_id } = req.body;
+    const fields = ['name'];
+
+    for (const field of fields) {
+      if (!req.body[field])
+        return res.status(400).json({
+          error: `Missing '${field}' in request body`
+        });
+    }
+
     MealService.insertMeal(
       req.app.get('db'),
       {name,
@@ -72,7 +81,7 @@ mealRouter
       delMeal
     )
       .then(meal => {
-        res.status(200).json(meal)
+        res.status(200).json(delMeal)
       })
       .catch(next);
   });
@@ -80,15 +89,13 @@ mealRouter
 // update meal info in database
 mealRouter
   .patch('/', jsonBodyParser, (req, res, next) => {
-    const { meal } = req.body;
-    const newMeal = meal;
 
     MealService.updateMeal(
       req.app.get('db'),
-      newMeal
+      req.body
     )
       .then(meal => {
-        res.status(200).json(meal);
+        res.status(200).json(req.body);
       })
       .catch(next);
     });
@@ -102,7 +109,7 @@ mealRouter
       Number(req.params.mealId)
     )
       .then(meal => {
-        if(!meal) {
+        if(meal.length === 0) {
           return res.status(404).json({
             error: { message : 'Meal not found'}
           });
