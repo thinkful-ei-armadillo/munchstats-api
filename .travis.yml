@@ -1,8 +1,12 @@
 language: node_js
 node_js: node
 
+env:
+  - DB=postgres
+
 services:
   - postgresql
 
 before_script:
   - psql -U postgres -c 'create database "munchstats-test";'
+  - npm run migrate
