@@ -71,22 +71,22 @@ describe('proxy endpoints', function () {
   describe.only('POST /api/proxy/nutrition', () => {
     context('with correct bearer token and valid foodId', () => {
       it('responds 200 OK, and gets all ingredients from meal', () => {
-        let ingredients = [{
-          quantity: 1, 
-          measureURI: "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce", 
-          foodId: 'food_b0bn6w4ab49t55b1o8jsnbq6nm2g'}]
-        // let body = { ingredients: ingredients, name:'banana', label: 'Ounce', quantity:8 }
+        // let ingredients = [{
+        //   quantity: 1, 
+        //   measureURI: "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce", 
+        //   foodId: 'food_b0bn6w4ab49t55b1o8jsnbq6nm2g'}]
+        // // let body = { ingredients: ingredients, name:'banana', label: 'Ounce', quantity:8 }
         let body = {
-          "ingredients": [
+          ingredients: [
               {
-                  "quantity": 8,
-                  "measureURI": "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce",
-                  "foodId": "food_b0bn6w4ab49t55b1o8jsnbq6nm2g"
+                  quantity: 8,
+                  measureURI: "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce",
+                  foodId: "food_b0bn6w4ab49t55b1o8jsnbq6nm2g"
               }
           ],
-          "name": "banana",
-          "label": "Ounce",
-          "quantity": "1"
+          name: "banana",
+          label: "Ounce",
+          quantity: "1"
       }
         console.log(body)
         return supertest(app)
