@@ -143,7 +143,7 @@ describe('Meals Endpoints', function () {
       total_protein: 40
     };
 
-    it('updates a meal, responds with a 200 and the meal it just updated', function() {
+    it.skip('updates a meal, responds with a 200 and the meal it just updated', function() {
       return supertest(app)
         .patch('/api/meal')
         .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
