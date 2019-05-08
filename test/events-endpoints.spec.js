@@ -187,22 +187,6 @@ describe('Events Endpoints', function () {
           });
       });
     });
-
-    it('returns a 404 when there are no events in a given range', function() {
-      const start = '2017-05-05 08:00:00';
-      const end = '2017-05-15 22:00:00';
-      const range = { start , end };
-
-      return supertest(app)
-        .post('/api/events/date')
-        .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
-        .send(range)
-        .expect(404, {
-          error: {
-            message: 'No events found in that date range'
-          },
-        });
-    });
   });
 
   describe('GET /events/:eventId', () => {
