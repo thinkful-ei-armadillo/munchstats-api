@@ -143,20 +143,20 @@ describe('Meals Endpoints', function () {
       total_protein: 40
     };
 
-    it.skip('updates a meal, responds with a 200 and the meal it just updated', function() {
+    it('updates a meal, responds with a 200 and the meal it just updated', function() {
       return supertest(app)
         .patch('/api/meal')
         .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
-        .send(updateMeal)
+        .send({meal: updateMeal})
         .expect(200)
         .expect(res => {
-          expect(res.body).to.have.property('id');
-          expect(res.body.user_id).to.eql(updateMeal.user_id);
-          expect(res.body.name).to.eql(updateMeal.name);
-          expect(res.body.total_calorie).to.eql(updateMeal.total_calorie);
-          expect(res.body.total_fat).to.eql(updateMeal.total_fat);
-          expect(res.body.total_carbs).to.eql(updateMeal.total_carbs);
-          expect(res.body.total_protein).to.eql(updateMeal.total_protein);
+          expect(res.body.meal).to.have.property('id');
+          expect(res.body.meal.user_id).to.eql(updateMeal.user_id);
+          expect(res.body.meal.name).to.eql(updateMeal.name);
+          expect(res.body.meal.total_calorie).to.eql(updateMeal.total_calorie);
+          expect(res.body.meal.total_fat).to.eql(updateMeal.total_fat);
+          expect(res.body.meal.total_carbs).to.eql(updateMeal.total_carbs);
+          expect(res.body.meal.total_protein).to.eql(updateMeal.total_protein);
         });
     });
   });
