@@ -88,14 +88,12 @@ describe('proxy endpoints', function () {
           label: "Ounce",
           quantity: "1"
       }
-        console.log(body)
         return supertest(app)
           .post('/api/proxy/nutrition')
           .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
           .send(body)
           .expect(201)
           .expect(res => {
-            console.log('>>>>>>>>>>>>>', res);
             expect(res.body.name).to.eql(body.name)
           })
       })
