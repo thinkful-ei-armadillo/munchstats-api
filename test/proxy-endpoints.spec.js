@@ -67,13 +67,15 @@ describe('proxy endpoints', function () {
           })
       })
     })
- })
+})
   describe('POST /api/proxy/nutrition', () => {
     context('with correct bearer token and valid meal_id', () => {
       it('responds 200 OK, and gets all ingredients from meal', () => {
         let ingredients = [{
-          quantity: 1, measureURI: 'http://www.edamam.com/ontologies/edamam.owl#Measure_cup', foodId: 'food_aop5qt1bqbntvmbbvbxzaay2dwxo'}]
-        let body = { ingredients, name:'peanut butter', label: 'Cup', quantity:1 }
+          quantity: 1, 
+          measureURI: 'http://www.edamam.com/ontologies/edamam.owl#Measure_cup', 
+          foodId: 'food_aop5qt1bqbntvmbbvbxzaay2dwxo'}]
+        let body = { ingredients: ingredients, name:'peanut butter', label: 'Cup', quantity:1 }
         return supertest(app)
           .post('/api/proxy/nutrition')
           .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))

@@ -57,6 +57,7 @@ apiProxyRouter
   .all(requireAuth)
   .route('/nutrition')
   .post(jsonBodyParser, (req, res, next) => {
+    console.log(req.body);
     const { ingredients, name, label, quantity } = req.body;
     // TODO: maybe make this a for loop instead of many if statements
     if (!req.body['ingredients'])
@@ -76,6 +77,7 @@ apiProxyRouter
         error: 'Missing quantity in request body'
       });
     const formattedBody = {ingredients: ingredients};
+    console.log(formattedBody);
     return fetch(`${process.env.NUTRITION_API_URI}`, {
       method: 'POST',
       body: JSON.stringify(formattedBody),
