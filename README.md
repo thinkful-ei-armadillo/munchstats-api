@@ -1,5 +1,10 @@
 ## Munch Stats API
 + [Client Repo](https://github.com/thinkful-ei-armadillo/munchstats-client)  
+### Development Team
++ [Michael Bramble](https://github.com/michaelbramble)  
++ [Geordie Connell](https://github.com/geordo9)  
++ [David Haugen](https://github.com/DavidHaugen)  
++ [Bob Nearents](https://github.com/bobnearents)  
 
 ### Endpoints
 #### /auth/token
@@ -40,9 +45,3 @@
 + Node.js
 + Express
 + Deployed with Heroku
-
-### Development Team
-+ [Michael Bramble](https://github.com/michaelbramble)  
-+ [Geordie Connell](https://github.com/geordo9)  
-+ [David Haugen](https://github.com/DavidHaugen)  
-+ [Bob Nearents](https://github.com/bobnearents)  
