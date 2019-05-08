@@ -3,6 +3,7 @@ node_js: node
 
 env:
   - DB=postgres
+  - JWT_SECRET=munchstats-jwt-secret
 
 services:
   - postgresql
