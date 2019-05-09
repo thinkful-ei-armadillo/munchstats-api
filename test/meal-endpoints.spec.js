@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 'use strict';
 
-const jwt = require('jsonwebtoken');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
@@ -18,9 +17,7 @@ describe('Meals Endpoints', function () {
   });
 
   after('disconnect from db', () => db.destroy());
-
   before('cleanup', () => helpers.cleanTables(db));
-
   afterEach('cleanup', () => helpers.cleanTables(db));
 
   describe('POST /meal', () => {
@@ -33,7 +30,7 @@ describe('Meals Endpoints', function () {
     );
 
     it('creates a meal, responding with 201', function () {
-    //   this.retries(3);
+      this.retries(3);
       const testUser = testUsers[0];
       const newMeal = {
         user_id: testUser.id,
@@ -83,7 +80,6 @@ describe('Meals Endpoints', function () {
 
       it(`responds with 400 and an error message when the '${field}' is missing`, () => {
         delete newMeal[field];
-
         return supertest(app)
           .post('/api/meal')
           .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))

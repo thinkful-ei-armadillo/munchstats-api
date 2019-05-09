@@ -10,6 +10,7 @@ authRouter
     const { username, password } = req.body
     const loginUser = { username, password }
 
+    // makes sure we have all the necessary feilds to log in
     for (const [key, value] of Object.entries(loginUser))
       if (value == null){
         return res.status(400).json({

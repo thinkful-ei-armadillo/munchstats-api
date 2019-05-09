@@ -29,29 +29,13 @@ eventsRouter
     }
   })
 
-// display all of a user's events
-// eventsRouter
-//   .get('/', async (req, res, next) => {
-//     try {
-//       const event = await EventsService.getAllUserEvents(
-//         req.app.get('db'),
-//         req.user.id
-//       );
-//       res.json({
-//         event
-//       })
-//       next()
-//     } catch(error){
-//       next(error)
-//     }
-//   });
-
 // post a new event to the database
 eventsRouter
   .post('/', jsonBodyParser, async (req, res, next) => {
     const {name, date, tag, calories, protein, fat, carbs } = req.body;
     const fields = ['name'];
 
+    // makes sure the name of the event is in the request body
     for (const field of fields) {
         if (!req.body[field])
             return res.status(400).json({
@@ -119,6 +103,7 @@ eventsRouter
       const { start, end } = req.body
       const fields = ['start', 'end'];
 
+      // makes sure we've submitted all the correct fields
       for (const field of fields) {
           if (!req.body[field])
               return res.status(400).json({
@@ -129,7 +114,6 @@ eventsRouter
       EventsService.getUserEventByDate(
           req.app.get('db'),
           req.user.id,
-          //need to discuss format of date
           start,
           end
       )

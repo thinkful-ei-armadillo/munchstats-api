@@ -12,6 +12,7 @@ async function requireAuth(req, res, next) {
     bearerToken = authToken.slice(7, authToken.length);
   }
 
+  // this try/catch block makes sure the bearer token is valid and if not, returns a 401 unathorized error
   try {
     const payload = AuthService.verifyJwt(bearerToken);
     const user = await AuthService.getUserWithUserName(

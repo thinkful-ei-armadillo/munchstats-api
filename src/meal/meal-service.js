@@ -1,6 +1,7 @@
 'use strict';
 
 const MealService = {
+  // gets all of a user's meals from the database via the user id
   getAllUserMeals(db, user_id){
     return db
       .from('meal')
@@ -8,6 +9,7 @@ const MealService = {
       .where({user_id});
   },
 
+  // get a single meal from the database via the user's and meal's ids
   getSingleUserMeal(db, user_id, id){
     return db
       .from('meal')
@@ -15,6 +17,7 @@ const MealService = {
       .where({user_id, id});
   },
 
+  // inserts a new meal into the database
   insertMeal(db, newMeal){
     return db
       .insert(newMeal)
@@ -22,6 +25,7 @@ const MealService = {
       .returning('*');
   },
 
+  // deletes a meal from the database via its id
   deleteMeal(db, id){
     return db
       .from('meal')
@@ -29,6 +33,7 @@ const MealService = {
       .delete();
   },
 
+  // updates a meal in the database via its id and uses a payload to update specific keys of the meal
   updateMeal(db, payload){
     return db
       .from('meal')

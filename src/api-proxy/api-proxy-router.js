@@ -56,23 +56,15 @@ apiProxyRouter
   .route('/nutrition')
   .post(jsonBodyParser, (req, res, next) => {
     const { ingredients, name, label, quantity } = req.body;
-    // TODO: maybe make this a for loop instead of many if statements
-    if (!req.body['ingredients'])
-      return res.status(400).json({
-        error: 'Missing ingredients in request body'
-      });
-    if (!req.body['name'])
-      return res.status(400).json({
-        error: 'Missing name in request body'
-      });
-    if (!req.body['label'])
-      return res.status(400).json({
-        error: 'Missing label in request body'
-      });
-    if (!req.body['quantity'])
-      return res.status(400).json({
-        error: 'Missing quantity in request body'
-      });
+
+    // makes sure we have all the necessary fields
+    const fields = ['ingredients', 'name', 'label', 'quantity'];
+    for (const field of fields) {
+      if (!req.body[field])
+        return res.status(400).json({
+          error: `Missing ${field} in request body`
+        });
+    }
     const formattedBody = {ingredients: ingredients};
     return fetch(`${process.env.NUTRITION_API_URI}`, {
       method: 'POST',
@@ -85,7 +77,6 @@ apiProxyRouter
       .then(results => {
         const resultIngredient = {
           name: name,
-          // meal_id: mealId,
           total_calorie: results.calories,
           total_fat:results.totalNutrients.FAT ? results.totalNutrients.FAT.quantity : 0,
           total_carbs: results.totalNutrients.CHOCDF ? results.totalNutrients.CHOCDF.quantity: 0,

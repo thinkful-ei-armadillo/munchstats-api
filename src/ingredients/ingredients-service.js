@@ -1,6 +1,7 @@
 'use strict';
 
 const IngredientService = {
+  // gets all of a meal's ingredients from the database via its id
   getMealIngredients(db, meal_id){
     return db
       .from('ingredients')
@@ -8,6 +9,7 @@ const IngredientService = {
       .where({meal_id});
   },
 
+  // inserts a new ingredient into the ingredients table, grouped by meal id
   insertIngredient(db, newIngredient, meal_id) {
     return db
       .insert(newIngredient)
@@ -16,6 +18,7 @@ const IngredientService = {
       .returning('*');
   },
 
+  // deletes an ingredient from the database
   deleteIngredient(knex, id) {
     return knex
       .from('ingredients')

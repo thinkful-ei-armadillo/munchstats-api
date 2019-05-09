@@ -1,6 +1,8 @@
+/* eslint-disable no-undef */
+'use strict';
 const knex = require('knex');
 const app = require('../src/app');
-const helpers = require('./test-helpers')
+const helpers = require('./test-helpers');
 
 describe('ingredients endpoints', function() {
   let db;
@@ -14,7 +16,7 @@ describe('ingredients endpoints', function() {
       client: 'pg',
       connection:process.env.TEST_DB_URL
     });
-    app.set('db', db)
+    app.set('db', db);
   });
 
   after('disconnect from db', () => db.destroy()); 
@@ -32,16 +34,13 @@ describe('ingredients endpoints', function() {
           .send({meal:{id:2}})
           .expect(200)
           .expect(res => {
-            const { ingredients } = res.body
-            expect(ingredients[0]).to.eql(testIngredients[3])
-          })
-      })
-    })
-    
-  })
-
-
-  describe('DELETE /api/ingredients', () => { // <----- what sad path to add?
+            const { ingredients } = res.body;
+            expect(ingredients[0]).to.eql(testIngredients[3]);
+          });
+      });
+    });
+  });
+  describe('DELETE /api/ingredients', () => {
     beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
     beforeEach('insert meals and ingredients', () => helpers.seedIngredientsAndMeals(db, testIngredients, testMeals));
     context('with correct bearer token and valid ingredient', () => {
@@ -52,12 +51,12 @@ describe('ingredients endpoints', function() {
           .send({ ingredient_id: 2 })
           .expect(200)
           .expect(res => {
-            expect(res.body).to.eql(2)
-          })
-      })
-    })
-  })
-  describe('POST /api/ingredients/:meal_id', () => { // <----- what sad path to add?
+            expect(res.body).to.eql(2);
+          });
+      });
+    });
+  });
+  describe('POST /api/ingredients/:meal_id', () => {
     beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
     beforeEach('insert meals and ingredients', () => helpers.seedIngredientsAndMeals(db, [], testMeals));
     context('with correct bearer token and valid ingredient', () => {
@@ -68,9 +67,9 @@ describe('ingredients endpoints', function() {
           .send({ ingredient_id: 2 })
           .expect(200)
           .expect(res => {
-            expect(res.body).to.eql(2)
-          })
-      })
-    })
-  })
-})
+            expect(res.body).to.eql(2);
+          });
+      });
+    });
+  });
+});

@@ -5,13 +5,12 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const userRouter = express.Router();
 const jsonBodyParser = express.json();
 
-
-
-
 userRouter
+  // post request when a new user signs up
   .post('/', jsonBodyParser, async (req, res, next) => {
     const { password, username, name } = req.body;
 
+    // makes sure that the user has submitted all the necessary fields
     for(const field of ['name', 'username', 'password'])
       if(!req.body[field])
         return res.status(400).json({
@@ -19,11 +18,13 @@ userRouter
         });
 
     try {
+      // checks the password to make sure it meets the necessary verificaions
       const passwordError = UserService.validatePassword(password);
 
       if(passwordError)
         return res.status(400).json({ error: passwordError });
 
+      // this block makes sure the user name is available and if so, it inserts the user into the database
       const hasUserWithUserName = await UserService.hasUserWithUserName(
         req.app.get('db'),
         username
@@ -54,6 +55,7 @@ userRouter
     }
   })
 
+// this blocks grabs the user's nutrition budget
 userRouter
   .use(requireAuth)
   .get('/', async (req, res, next) => {
@@ -66,18 +68,7 @@ userRouter
     })
   })
 
-userRouter
-  .use(requireAuth)
-  .get('/', async (req, res, next) => {
-    const user = await UserService.getUserBudgets(
-      req.app.get('db'),
-      req.user.id
-    );
-    res.json({
-      user
-    })
-  })
-
+// makes a patch request to update the user's nutrition budget
 userRouter
   .use(requireAuth)
   .patch('/', jsonBodyParser, (req, res, next) => {
@@ -94,6 +85,7 @@ userRouter
       .catch(next);
   });
 
+// this block toggles Dark Mode on and off
 userRouter
   .use(requireAuth)
   .patch('/dark', jsonBodyParser, (req, res, next) => {

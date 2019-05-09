@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
 'use strict';
-
-const jwt = require('jsonwebtoken');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
@@ -18,9 +16,7 @@ describe('Events Endpoints', function () {
   });
 
   after('disconnect from db', () => db.destroy());
-
   before('cleanup', () => helpers.cleanTables(db));
-
   afterEach('cleanup', () => helpers.cleanTables(db));
 
   describe('POST /events', () => {
@@ -33,7 +29,7 @@ describe('Events Endpoints', function () {
     );
 
     it('creates a event, responding with 201', function () {
-    //   this.retries(3);
+      this.retries(3);
       const testUser = testUsers[0];
       const newEvent = {
         id: 5,
@@ -223,7 +219,5 @@ describe('Events Endpoints', function () {
           error: { message : 'Event not found'}
         });
     });
-
   });
-  
 });

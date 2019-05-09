@@ -9,6 +9,7 @@ ingredientRouter
 
 ingredientRouter
   .route('/')
+  // this block makes a post request to the database that returns all of a meal's ingredients
   .post(jsonBodyParser, async (req, res, next) => {
     try {
       const ingredients = await IngredientService.getMealIngredients(
@@ -22,6 +23,7 @@ ingredientRouter
       next(error);
     }
   })
+  // this block makes a delete request to the database and returns the ingredient that was deleted
   .delete(jsonBodyParser, (req, res, next) => {
     IngredientService.deleteIngredient(
         req.app.get('db'),
@@ -34,6 +36,7 @@ ingredientRouter
   });
 
 ingredientRouter
+  // makes a post request that inserts a new ingredient into a specific meal
   .post('/:meal_id', jsonBodyParser, async (req, res, next) => {
     // all ingredient info will be in req.body
     const { ingredient } = req.body;
@@ -46,12 +49,6 @@ ingredientRouter
       meal_id
     )
       .then(ingredient => {
-        // console.log(ingredient)
-        // if(!ingredient[0].amount){
-        //   return res.status(400).json({
-        //     error : 'Must include quantity in amount'
-        //   })
-        // }
         res.status(201).send(ingredient);
       })
       .catch(next);

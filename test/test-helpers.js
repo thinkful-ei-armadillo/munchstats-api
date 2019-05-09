@@ -2,10 +2,7 @@ const knex = require('knex')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-/**
- * create a knex instance connected to postgres
- * @returns {knex instance}
- */
+// create a knex instance connected to postgres
 function makeKnexInstance() {
   console.log(process.env.TEST_DB_URL);
   return knex({
@@ -14,10 +11,7 @@ function makeKnexInstance() {
   })
 }
 
-/**
- * create a knex instance connected to postgres
- * @returns {array} of user objects
- */
+// creates an array of users for the tests
 function makeUsersArray() {
   return [
     {
@@ -43,20 +37,7 @@ function makeUsersArray() {
   ]
 }
 
-function makeMealsArray() {
-  return [
-    {
-      id: 1,
-      name: 'test meal 1',
-      user_id: 1
-    },
-    {
-      id: 2,
-      name: 'test meal 2',
-      user_id: 1
-    }
-  ]
-}
+// creates an array of ingredients for the tests
 function makeIngredientsArray() {
   return [
     {
@@ -105,6 +86,8 @@ function makeIngredientsArray() {
     },
   ]
 }
+
+// creates an array of meals for the tests
 function makeMealsArray() {
   return [{
       id: 1,
@@ -145,6 +128,7 @@ function makeMealsArray() {
   ]
 }
 
+// creates an array of events for the tests
 function makeEventsArray() {
   return [{
       id: 1,
@@ -193,12 +177,7 @@ function makeEventsArray() {
   ]
 }
 
-/**
- * make a bearer token with jwt for authorization header
- * @param {object} user - contains `id`, `username`
- * @param {string} secret - used to create the JWT
- * @returns {string} - for HTTP authorization header
- */
+// make a bearer token with jwt for authorization header
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({ user_id: user.id }, secret, {
     subject: user.username,
@@ -207,10 +186,7 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   return `Bearer ${token}`
 }
 
-/**
- * remove data from tables
- * @param {knex instance} db
- */
+// removes the data from the tables
 function cleanTables(db) {
   return db.transaction(trx =>
     trx.raw(
@@ -235,12 +211,7 @@ function cleanTables(db) {
   )
 }
 
-/**
- * insert users into db with bcrypted passwords and update sequence
- * @param {knex instance} db
- * @param {array} users - array of user objects for insertion
- * @returns {Promise} - when users table seeded
- */
+// inserts users into db with bcrypted passwords and update sequence
 function seedUsers(db, users) {
   const preppedUsers = users.map(user => ({
     ...user,
@@ -256,6 +227,7 @@ function seedUsers(db, users) {
   })
 }
 
+// seeds both the ingredients and meals tables for the ingredients endpoints tests
 function seedIngredientsAndMeals(db, ingredients, meals) {
    return db.transaction(async trx => {
      await trx.into('meal').insert(meals)
@@ -263,6 +235,7 @@ function seedIngredientsAndMeals(db, ingredients, meals) {
    })
 }
 
+// seeds both the users and meal tables for the meal endpoints tests
 function seedMealTables(db, users, meals = []) {
   return seedUsers(db, users)
     .then(() =>
@@ -272,6 +245,7 @@ function seedMealTables(db, users, meals = []) {
     )
 }
 
+// seeds both the users and events tables for the events endpoints tests
 function seedEventsTables(db, users, events = []) {
   return seedUsers(db, users)
     .then(() =>

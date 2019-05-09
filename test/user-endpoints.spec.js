@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 const bcrypt = require('bcryptjs');
 const app = require('../src/app');
@@ -15,9 +16,7 @@ describe('User Endpoints', function () {
   });
 
   after('disconnect from db', () => db.destroy());
-
   before('cleanup', () => helpers.cleanTables(db));
-
   afterEach('cleanup', () => helpers.cleanTables(db));
 
   /**
@@ -155,8 +154,6 @@ describe('User Endpoints', function () {
       });
     });
   });
-
-
   describe('PATCH /api/user', () => {
     beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
     context('with incorrect bearer token and valid data', () => {
@@ -164,9 +161,9 @@ describe('User Endpoints', function () {
         return supertest(app)
           .patch('/api/user')
           .set('Authorization', helpers.makeAuthHeader(testUser, 'not a very good secret'))
-          .expect(401)
-      })
-    })
+          .expect(401);
+      });
+    });
     context('with correct bearer token and valid data', () => {
       it('responds 200 OK', () => {
         let newBudgets = ({'user':{
@@ -174,22 +171,22 @@ describe('User Endpoints', function () {
           fatBudget:50,
           proteinBudget:50,
           carbBudget:50
-        }})
+        }});
         return supertest(app)
           .patch('/api/user')
           .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
           .send(newBudgets)
           .expect(200)
           .expect(res => {
-            let budgets = res.body
+            let budgets = res.body;
             expect(budgets.calorieBudget).to.eql(newBudgets.user.calorieBudget);
             expect(budgets.fatBudget).to.eql(newBudgets.user.fatBudget);
             expect(budgets.carbBudget).to.eql(newBudgets.user.carbBudget);
             expect(budgets.proteinBudget).to.eql(newBudgets.user.proteinBudget);
           });
-      })
-    })
-  })
+      });
+    });
+  });
   describe('PATCH /api/user/dark', () => {
     beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
     context('with correct bearer token', () => {
@@ -198,10 +195,10 @@ describe('User Endpoints', function () {
         return supertest(app)
           .patch('/api/user/dark')
           .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
-          .expect(200) 
-      })
-    })
-  })
+          .expect(200); 
+      });
+    });
+  });
   describe('GET /api/user', () => {
     beforeEach('insert users', () => helpers.seedUsers(db, testUsers));
     context('with correct bearer token', () => {
@@ -211,23 +208,23 @@ describe('User Endpoints', function () {
           .set('Authorization', helpers.makeAuthHeader(testUser, process.env.JWT_SECRET))
           .expect(200)
           .expect(res => {
-            let user = res.body.user[0]
+            let user = res.body.user[0];
             expect(user.calorieBudget).to.eql(testUser.calorieBudget);
             expect(user.fatBudget).to.eql(testUser.fatBudget);
             expect(user.carbBudget).to.eql(testUser.carbBudget);
             expect(user.proteinBudget).to.eql(testUser.proteinBudget);
           });
-      })
-    })
+      });
+    });
     context('with incorrect bearer token', () => {
       it('responds with 401 unauthorized', () => {
         return supertest(app)
           .get('/api/user')
           .set('Authorization', 'no good secret')
-          .expect(401)
-      })
-    })
-  })
+          .expect(401);
+      });
+    });
+  });
 });
 
 
