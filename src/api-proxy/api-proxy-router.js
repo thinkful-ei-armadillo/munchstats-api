@@ -28,9 +28,7 @@ apiProxyRouter
       .then(apiResults => {
         // if no results found, return an error
         if(apiResults.parsed.length === 0){
-          return res.status(400).json({
-            error: 'Sorry, we couldn\'t find any results matching your search'
-          });
+          return res.status(200).json([]);
         } else {
           let results = [];
           for(let i = 0; i < 10; i++){
