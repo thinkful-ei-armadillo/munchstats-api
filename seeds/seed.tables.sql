@@ -6,20 +6,28 @@ BEGIN;
 TRUNCATE
   "user", "meal", "ingredients", "events";
 
-INSERT INTO "user" ("id", "username", "name", "password")
+INSERT INTO "user" ("id", "username", "name", "password", "calorieBudget", "fatBudget", "carbBudget", "proteinBudget")
 VALUES
   (
     1,
     'test',
     'Test User',
     -- password = "pass"
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    2000,
+    70,
+    250,
+    110
   ),
   (2,
     'admin',
     'Nom Nom',
     -- password = "pass"
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    2000,
+    70,
+    250,
+    110
   );
 
 INSERT INTO "meal" ("id", "name", "user_id", "total_calorie", "total_fat", "total_carbs", "total_protein")
