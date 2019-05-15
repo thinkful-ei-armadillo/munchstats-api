@@ -1,6 +1,6 @@
 BEGIN;
 
--- psql -h ec2-54-235-208-103.compute-1.amazonaws.com -U mutdgftgfhyqfq -d d2qvu6rdo8jrdq -f seeds/seed.tables.sql
+-- psql -h ec2-54-83-192-245.compute-1.amazonaws.com -U lyievkdhcaanjz -d d8fp3g9a3ed442 -f seeds/seed.tables.sql
 -- psql -U postgres -d munchstats -f seeds/seed.tables.sql
 
 TRUNCATE
