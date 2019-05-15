@@ -1,4 +1,3 @@
-'use strict';
 
 const MealService = {
   // gets all of a user's meals from the database via the user id

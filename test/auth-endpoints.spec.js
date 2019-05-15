@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-'use strict';
+
 
 const jwt = require('jsonwebtoken');
 const app = require('../src/app');

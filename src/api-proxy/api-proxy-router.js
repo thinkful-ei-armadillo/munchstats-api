@@ -1,4 +1,4 @@
-'use strict';
+
 
 const express = require('express');
 const { requireAuth } = require('../middleware/jwt-auth');
@@ -18,7 +18,7 @@ apiProxyRouter
         error: 'Missing food in request body.'
       });
     }
-    if(food.length > 30){
+    if(food.length > 30)
       return res.status(400).json({
         error: 'Food names cannot exceed 30 characters.'
       });

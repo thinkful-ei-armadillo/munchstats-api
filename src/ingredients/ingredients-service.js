@@ -1,4 +1,3 @@
-'use strict';
 
 const IngredientService = {
   // gets all of a meal's ingredients from the database via its id

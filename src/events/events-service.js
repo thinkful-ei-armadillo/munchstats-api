@@ -1,4 +1,4 @@
-'use strict';
+
 
 const EventsService = {
   // gets all of the user's events from the database
