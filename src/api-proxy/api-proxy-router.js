@@ -18,10 +18,9 @@ apiProxyRouter
         error: 'Missing food in request body.'
       });
     }
-    if(food.length > 30)
-      return res.status(400).json({
-        error: 'Food names cannot exceed 30 characters.'
-      });
+    if(food.length > 30){      return res.status(400).json({
+      error: 'Food names cannot exceed 30 characters.'
+    });
     }
     return fetch(`${process.env.FOOD_API_URI_START}${food}${process.env.FOOD_API_URI_END}`)
       .then(res => res.json())
